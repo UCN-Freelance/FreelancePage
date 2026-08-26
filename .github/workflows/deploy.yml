@@ -43,7 +43,8 @@ jobs:
             npm run build
 
             echo "Restarting website..."
-            pm2 restart ucn-freelance || pm2 start .output/server/index.mjs --name ucn-freelance
+            pm2 delete ucn-freelance || true
+            HOST=127.0.0.1 PORT=3000 pm2 start .output/server/index.mjs --name ucn-freelance
 
             pm2 save
 
