@@ -1,0 +1,3 @@
+next.sof60.dk {
+  reverse_proxy nuxt:3000
+}

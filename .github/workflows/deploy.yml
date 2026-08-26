@@ -23,13 +23,6 @@ jobs:
 
             cd /home/next/Docker/FreelancePage
 
-            echo "Ensuring pm2 is available..."
-            export PATH="$HOME/.npm-global/bin:$PATH"
-            if ! command -v pm2 >/dev/null 2>&1; then
-              npm config set prefix "$HOME/.npm-global"
-              npm install -g pm2@latest
-            fi
-
             echo "Fetching latest code..."
             git fetch origin main
 
@@ -39,13 +32,8 @@ jobs:
             echo "Installing dependencies..."
             npm ci
 
-            echo "Building Nuxt..."
-            npm run build
-
-            echo "Restarting website..."
-            pm2 delete ucn-freelance || true
-            HOST=127.0.0.1 PORT=3000 pm2 start .output/server/index.mjs --name ucn-freelance
-
-            pm2 save
+            echo "Building and Restarting website..."
+            docker compose down
+            docker compose up -d
 
             echo "Deployment complete."
