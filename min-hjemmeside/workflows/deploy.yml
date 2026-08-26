@@ -1,0 +1,43 @@
+name: Deploy UCN Freelance
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_PORT }}
+
+          script: |
+            set -e
+
+            cd /home/next/Docker/FreelancePage
+
+            echo "Fetching latest code..."
+            git fetch origin main
+
+            echo "Updating main..."
+            git reset --hard origin/main
+
+            echo "Installing dependencies..."
+            npm ci
+
+            echo "Building Nuxt..."
+            npm run build
+
+            echo "Restarting website..."
+            pm2 restart ucn-freelance || pm2 start .output/server/index.mjs --name ucn-freelance
+
+            pm2 save
+
+            echo "Deployment complete."
