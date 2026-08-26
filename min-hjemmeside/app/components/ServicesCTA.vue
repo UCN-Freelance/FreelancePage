@@ -47,9 +47,9 @@
 
 <style scoped>
 .services-cta {
-  padding: 100px 24px 120px;
+  padding: 90px 24px 110px;
 
-  background: #f8f9fb;
+  background: var(--bg);
 }
 
 .cta-container {
@@ -59,9 +59,9 @@
 }
 
 .cta-card {
-  min-height: 410px;
+  min-height: 380px;
 
-  padding: 58px;
+  padding: 56px;
 
   display: flex;
   align-items: flex-end;
@@ -69,19 +69,8 @@
 
   gap: 60px;
 
-  border: 1px solid rgba(17, 21, 32, 0.07);
-  border-radius: 30px;
-
-  background:
-    radial-gradient(
-      circle at 92% 12%,
-      rgba(36, 108, 255, 0.11),
-      transparent 35%
-    ),
-    white;
-
-  box-shadow:
-    0 18px 60px rgba(18, 22, 33, 0.05);
+  border: 1px solid var(--line-strong);
+  background: var(--bg-raised);
 }
 
 .cta-copy {
@@ -91,33 +80,33 @@
 .cta-copy > span {
   display: block;
 
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 
-  color: #858b96;
+  color: var(--slate);
 
-  font-size: 10px;
-  font-weight: 650;
+  font-family: var(--font-mono);
+  font-size: 11px;
 
-  letter-spacing: 0.09em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
 .cta-copy h2 {
   margin: 0;
 
-  color: #111520;
+  color: var(--ink);
 
-  font-size: clamp(46px, 5vw, 70px);
-  font-weight: 650;
+  font-size: clamp(36px, 4.4vw, 56px);
+  font-weight: 700;
 
-  line-height: 0.95;
-  letter-spacing: -0.06em;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
 }
 
 .cta-copy h2 strong {
   display: block;
 
-  color: #a1a6af;
+  color: var(--slate);
 
   font-weight: inherit;
 }
@@ -125,12 +114,12 @@
 .cta-copy p {
   max-width: 580px;
 
-  margin: 25px 0 0;
+  margin: 22px 0 0;
 
-  color: #6c727d;
+  color: var(--ink-soft);
 
   font-size: 14px;
-  line-height: 1.75;
+  line-height: 1.7;
 }
 
 .cta-button {
@@ -145,23 +134,19 @@
 
   gap: 10px;
 
-  border-radius: 14px;
+  border-radius: var(--radius-sm);
 
-  background: #111520;
-  color: white;
+  background: var(--chip-bg);
+  color: var(--chip-text);
 
   font-size: 13px;
-  font-weight: 650;
+  font-weight: 600;
 
   text-decoration: none;
 
-  box-shadow:
-    0 8px 22px rgba(17, 21, 32, 0.14);
-
   transition:
-    transform 180ms ease,
     background 180ms ease,
-    box-shadow 180ms ease;
+    color 180ms ease;
 }
 
 .cta-button svg {
@@ -172,12 +157,8 @@
 }
 
 .cta-button:hover {
-  transform: translateY(-2px);
-
-  background: #202634;
-
-  box-shadow:
-    0 12px 28px rgba(17, 21, 32, 0.18);
+  background: var(--accent);
+  color: var(--accent-ink);
 }
 
 .cta-button:hover svg {
@@ -186,28 +167,22 @@
 
 @media (max-width: 750px) {
   .services-cta {
-    padding: 70px 18px 90px;
+    padding: 60px 18px 80px;
   }
 
   .cta-card {
     min-height: auto;
 
-    padding: 34px;
+    padding: 30px;
 
     flex-direction: column;
     align-items: flex-start;
 
-    gap: 35px;
-
-    border-radius: 24px;
+    gap: 30px;
   }
 }
 
 @media (max-width: 480px) {
-  .cta-card {
-    padding: 28px;
-  }
-
   .cta-button {
     width: 100%;
 

@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+import { useStairReveal } from '~/composables/useStairReveal'
+
 const cases = [
   {
     title: 'Case 1',
@@ -25,18 +28,34 @@ const cases = [
     image: '/cases/case4.jpg',
   },
 ]
+
+const accentColors = ['#6366f1', '#4f46e5', '#4338ca', '#3730a3']
+
+const gridEl = ref<HTMLElement | null>(null)
+
+useStairReveal(gridEl, '.case-card', {
+  direction: (i) => (i % 2 === 0 ? 'left' : 'right'),
+})
 </script>
 
 <template>
   <main class="cases-page">
     <div class="cases-container">
-      <div class="cases-grid">
+      <span class="section-kicker">Cases</span>
+
+      <h1>
+        Projekter vi har
+        <span>bygget for kunder.</span>
+      </h1>
+
+      <div ref="gridEl" class="cases-grid">
         <CaseCard
-          v-for="caseItem in cases"
+          v-for="(caseItem, index) in cases"
           :key="caseItem.title"
           :title="caseItem.title"
           :description="caseItem.description"
           :image="caseItem.image"
+          :accent="accentColors[index % accentColors.length]"
         />
       </div>
     </div>
@@ -47,15 +66,50 @@ const cases = [
 .cases-page {
   min-height: 100vh;
 
-  padding: 80px 24px 120px;
+  padding: 64px 40px 120px;
 
-  background: #f8f9fb;
+  background: var(--bg);
 }
 
 .cases-container {
-  max-width: 1240px;
+  max-width: 1360px;
 
   margin: 0 auto;
+}
+
+.section-kicker {
+  display: block;
+
+  margin-bottom: 22px;
+
+  color: var(--slate);
+
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0 0 60px;
+
+  max-width: 700px;
+
+  color: var(--ink);
+
+  font-size: clamp(36px, 4.4vw, 56px);
+  font-weight: 700;
+
+  line-height: 1.04;
+  letter-spacing: -0.02em;
+}
+
+h1 span {
+  display: block;
+
+  color: var(--accent);
 }
 
 .cases-grid {
@@ -67,7 +121,13 @@ const cases = [
 
 @media (max-width: 750px) {
   .cases-page {
-    padding: 60px 18px 90px;
+    padding: 50px 18px 90px;
+  }
+
+  h1 {
+    margin-bottom: 44px;
+
+    font-size: clamp(32px, 10vw, 44px);
   }
 
   .cases-grid {

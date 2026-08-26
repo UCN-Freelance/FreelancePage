@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+import { useStairReveal } from '~/composables/useStairReveal'
+
 const services = [
   {
-    number: '01',
     title: 'Webudvikling',
     description:
       'Moderne, hurtige og responsive hjemmesider bygget med fokus på brugeroplevelse, performance og et professionelt visuelt udtryk.',
@@ -15,7 +17,6 @@ const services = [
     ],
   },
   {
-    number: '02',
     title: 'Webapplikationer',
     description:
       'Skræddersyede webbaserede systemer til virksomheder, medarbejdere og kunder — fra simple portaler til komplette platforme.',
@@ -28,7 +29,6 @@ const services = [
     ],
   },
   {
-    number: '03',
     title: 'Scrapers & data',
     description:
       'Automatiseret indsamling og strukturering af data fra hjemmesider, platforme og andre digitale datakilder.',
@@ -41,7 +41,6 @@ const services = [
     ],
   },
   {
-    number: '04',
     title: 'Automatisering',
     description:
       'Vi automatiserer gentagne arbejdsgange og binder systemer sammen, så manuelle processer kan køre uden konstant menneskelig indblanding.',
@@ -54,7 +53,6 @@ const services = [
     ],
   },
   {
-    number: '05',
     title: 'API & integrationer',
     description:
       'Integration mellem eksisterende systemer, tredjepartsservices og egne løsninger gennem stabile og veldesignede API’er.',
@@ -67,7 +65,6 @@ const services = [
     ],
   },
   {
-    number: '06',
     title: 'Database & backend',
     description:
       'Robuste backend-løsninger og databaser, der håndterer forretningslogik, data og kommunikation mellem jeres systemer.',
@@ -81,7 +78,6 @@ const services = [
     ],
   },
   {
-    number: '07',
     title: 'Interne systemer',
     description:
       'Specialbyggede værktøjer til jeres egne medarbejdere, så data, administration og processer samles ét sted.',
@@ -94,7 +90,6 @@ const services = [
     ],
   },
   {
-    number: '08',
     title: 'Optimering & videreudvikling',
     description:
       'Vi kan overtage, forbedre eller udvide eksisterende software og hjælpe med performance, arkitektur og nye features.',
@@ -107,6 +102,14 @@ const services = [
     ],
   },
 ]
+
+const accentColors = ['#6366f1', '#4f46e5', '#4338ca', '#3730a3']
+
+const gridEl = ref<HTMLElement | null>(null)
+
+useStairReveal(gridEl, '.service-card', {
+  direction: (i) => (i % 2 === 0 ? 'left' : 'right'),
+})
 </script>
 
 <template>
@@ -123,14 +126,14 @@ const services = [
         </h2>
       </div>
 
-      <div class="services-grid">
+      <div ref="gridEl" class="services-grid">
         <ServiceCard
-          v-for="service in services"
-          :key="service.number"
-          :number="service.number"
+          v-for="(service, index) in services"
+          :key="service.title"
           :title="service.title"
           :description="service.description"
           :items="service.items"
+          :accent="accentColors[index % accentColors.length]"
         />
       </div>
     </div>
@@ -139,63 +142,72 @@ const services = [
 
 <style scoped>
 .services-grid-section {
-  padding: 20px 24px 120px;
+  padding: 10px 40px 110px;
+
+  background: var(--bg);
 }
 
 .services-container {
-  max-width: 1240px;
+  max-width: 1360px;
 
   margin: 0 auto;
 }
 
 .section-header {
-  margin-bottom: 55px;
+  margin-bottom: 50px;
 }
 
 .section-header > span {
   display: block;
 
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 
-  color: #898f99;
+  color: var(--slate);
 
-  font-size: 10px;
-  font-weight: 650;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
 
-  letter-spacing: 0.1em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
 .section-header h2 {
   margin: 0;
 
-  color: #111520;
+  color: var(--ink);
 
-  font-size: clamp(44px, 5vw, 68px);
-  font-weight: 650;
+  font-size: clamp(36px, 4.4vw, 56px);
+  font-weight: 700;
 
-  line-height: 0.96;
-  letter-spacing: -0.055em;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
 }
 
 .section-header h2 strong {
   display: block;
 
-  color: #a1a6af;
+  color: var(--slate);
 
   font-weight: inherit;
 }
 
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
 
-  gap: 18px;
+  gap: 20px;
 }
 
-@media (max-width: 750px) {
+@media (max-width: 1050px) {
+  .services-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
   .services-grid-section {
-    padding: 10px 18px 80px;
+    padding: 10px 18px 70px;
   }
 
   .services-grid {

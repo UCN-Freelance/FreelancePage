@@ -1,17 +1,18 @@
 <script setup lang="ts">
-defineProps<{
-  number: string
-  title: string
-  description: string
-  items: string[]
-}>()
+withDefaults(
+  defineProps<{
+    title: string
+    description: string
+    items: string[]
+    accent?: string
+  }>(),
+  { accent: 'var(--accent)' },
+)
 </script>
 
 <template>
-  <article class="service-card">
-    <span class="service-number">
-      {{ number }}
-    </span>
+  <article class="service-card" :style="{ '--card-accent': accent }">
+    <span class="accent-bar" aria-hidden="true" />
 
     <div class="card-content">
       <h3>
@@ -36,100 +37,112 @@ defineProps<{
 
 <style scoped>
 .service-card {
-  padding: 24px 28px;
+  position: relative;
+
+  padding: 30px 26px 26px;
 
   display: flex;
   flex-direction: column;
 
-  border: 1px solid rgba(17, 21, 32, 0.07);
-  border-radius: 20px;
+  overflow: hidden;
 
-  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--bg-raised);
 
   transition:
-    transform 220ms ease,
-    box-shadow 220ms ease,
-    background 220ms ease,
-    border-color 220ms ease;
+    transform 260ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 260ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 260ms ease;
+}
+
+.accent-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+
+  background: var(--card-accent);
+
+  transform: scaleX(0.16);
+  transform-origin: left;
+
+  transition: transform 380ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .service-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-5px);
 
-  border-color: rgba(17, 21, 32, 0.11);
-
-  background: white;
-
-  box-shadow:
-    0 14px 38px rgba(18, 22, 33, 0.06);
+  border-color: var(--card-accent);
+  box-shadow: 0 18px 34px -18px rgba(0, 0, 0, 0.22);
 }
 
-.service-number {
-  margin-bottom: 30px;
-
-  color: #9ca1aa;
-
-  font-size: 10px;
-  font-weight: 650;
-
-  letter-spacing: 0.08em;
+.service-card:hover .accent-bar {
+  transform: scaleX(1);
 }
 
 .card-content h3 {
   margin: 0;
 
-  color: #111520;
+  color: var(--ink);
 
-  font-size: 26px;
-  font-weight: 650;
+  font-size: 22px;
+  font-weight: 700;
 
-  line-height: 1.05;
-  letter-spacing: -0.04em;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+
+  transition: color 220ms ease;
+}
+
+.service-card:hover .card-content h3 {
+  color: var(--card-accent);
 }
 
 .card-content p {
   max-width: 540px;
 
-  margin: 13px 0 0;
+  margin: 12px 0 0;
 
-  color: #717783;
+  color: var(--slate);
 
   font-size: 13px;
-  line-height: 1.65;
+  line-height: 1.6;
 }
 
 .service-items {
-  margin-top: 24px;
+  margin-top: 22px;
 
   display: flex;
   flex-wrap: wrap;
 
-  gap: 7px;
+  gap: 6px;
 }
 
 .service-items span {
-  padding: 6px 10px;
+  padding: 5px 9px;
 
-  border: 1px solid rgba(17, 21, 32, 0.07);
-  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
 
-  background: #f5f6f8;
+  background: transparent;
 
-  color: #717783;
+  color: var(--ink-soft);
 
-  font-size: 9px;
-  font-weight: 600;
+  font-family: var(--font-mono);
+  font-size: 10px;
 
-  letter-spacing: 0.025em;
+  transition: border-color 220ms ease;
+}
+
+.service-card:hover .service-items span {
+  border-color: var(--card-accent);
 }
 
 @media (max-width: 750px) {
   .service-card {
     padding: 22px 24px;
-  }
-
-  .service-number {
-    margin-bottom: 26px;
   }
 
   .card-content h3 {
@@ -148,11 +161,6 @@ defineProps<{
 @media (max-width: 480px) {
   .service-card {
     padding: 20px;
-    border-radius: 17px;
-  }
-
-  .service-number {
-    margin-bottom: 22px;
   }
 
   .card-content h3 {
