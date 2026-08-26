@@ -142,7 +142,7 @@ onMounted(() => {
 
   color: var(--ink-soft);
 
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 500;
 
   line-height: 1.45;
@@ -154,7 +154,7 @@ onMounted(() => {
   color: var(--slate);
 
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 13px;
 
   line-height: 1.4;
 }

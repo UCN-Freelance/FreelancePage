@@ -85,7 +85,7 @@
   color: var(--slate);
 
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 13px;
 
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -118,7 +118,7 @@
 
   color: var(--ink-soft);
 
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.7;
 }
 
@@ -139,7 +139,7 @@
   background: var(--chip-bg);
   color: var(--chip-text);
 
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
 
   text-decoration: none;

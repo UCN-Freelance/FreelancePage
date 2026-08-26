@@ -276,7 +276,7 @@ main {
   color: var(--slate);
 
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 500;
 
   letter-spacing: 0.06em;
@@ -357,7 +357,7 @@ main {
 
   border-radius: var(--radius-sm);
 
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
 
   text-decoration: none;
@@ -422,7 +422,7 @@ main {
   color: var(--slate);
 
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 13px;
 
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -434,7 +434,7 @@ main {
 
   color: var(--ink-soft);
 
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.7;
 }
 
@@ -473,7 +473,7 @@ main {
   color: var(--slate);
 
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 13px;
 }
 
 .next-cue {
@@ -498,7 +498,7 @@ main {
 
 .next-cue span {
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 13px;
 
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -584,7 +584,11 @@ main {
 .services-section {
   padding: 110px 0;
 
-  background: var(--bg);
+  /* Deeper than --bg so the white mosaic tiles have something to sit on.
+     The intro band above is --bg-raised, a close neighbour, so the same
+     hairline .intro-section uses keeps the two bands distinct. */
+  border-top: 1px solid var(--line);
+  background: var(--card-canvas);
 }
 
 .services-header {
@@ -609,7 +613,7 @@ main {
   color: var(--ink-soft);
 
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
 
   text-decoration: none;
@@ -645,13 +649,29 @@ main {
   display: flex;
   flex-direction: column;
 
-  background: var(--bg);
-
-  transition: background-color 220ms ease;
+  /* Sharper than the --bg section behind it, so the mosaic reads as
+     tiles instead of dissolving into the page. Tuned in main.css. */
+  background: var(--card-surface);
 }
 
-.service-card:hover {
-  background: var(--bg-raised);
+/* Hovering dims the rest of the mosaic rather than shading the hovered
+   tile — on a white surface, darkening the hovered one reads backwards.
+   No lift or scale here: the tiles are flush with 1px seams that a
+   transform would tear open.
+
+   The reveal (useStairReveal) owns opacity on the way in and outranks a
+   plain :hover, so these wait for .is-visible before taking over — and
+   set their own transition to escape the slower 560ms entrance one. */
+.services-grid .service-card.is-visible {
+  transition: opacity var(--card-hover-ms) ease;
+}
+
+.services-grid:hover .service-card.is-visible {
+  opacity: var(--card-dim);
+}
+
+.services-grid .service-card.is-visible:hover {
+  opacity: 1;
 }
 
 .service-content h3 {
@@ -668,7 +688,7 @@ main {
 
   color: var(--slate);
 
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.65;
 }
 
@@ -792,7 +812,7 @@ main {
   color: var(--slate);
 
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 13px;
 
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -848,7 +868,7 @@ main {
   background: var(--chip-bg);
   color: var(--chip-text);
 
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
 
   text-decoration: none;

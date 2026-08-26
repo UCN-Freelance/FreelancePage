@@ -85,7 +85,7 @@ useStairReveal(gridEl, '.case-card', {
   color: var(--slate);
 
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 500;
 
   letter-spacing: 0.06em;

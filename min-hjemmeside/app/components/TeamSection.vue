@@ -55,10 +55,40 @@ function imagePath(name: string) {
 // Everything below is visible by default and only ever hidden by JS
 // that has actually run, so a slow/failed mount can never leave
 // content stuck invisible.
-const HOLD_MS = 1100
+// How often the next member is cued. This is shorter than the 380ms
+// swipe-in below on purpose: cards overlap in flight, so the incoming
+// one is already crossing the stage while the previous dissolves at
+// center, and the run reads as one continuous stream off the right
+// edge rather than a series of discrete slides. Raising this past the
+// swipe duration turns it back into one-card-at-a-time.
+const HOLD_MS = 100
+
+// The last member is cued like any other, but nothing follows it to
+// cover its arrival — so the stage has to wait out its 380ms swipe
+// plus a beat at center before dissolving. Without this tail the final
+// card is still in flight when the handoff starts and never lands.
+const SETTLE_MS = 150
+
+// The stage opens on the logo rather than on a member: it holds for
+// LOGO_HOLD_MS, dissolves over LOGO_FADE_MS, and only then is the first
+// member cued. On /about the stage is already on screen at load, so
+// without this opening the stream is mid-flight before the page has
+// finished reading as a page.
+const LOGO_HOLD_MS = 1000
+
+// Must match the .stage-logo transition — it's fed to the CSS as
+// --logo-fade-ms, so changing it here is enough.
+const LOGO_FADE_MS = 420
 
 const showStage = ref(false)
-const activeIndex = ref(0)
+
+// -1 = nobody on stage yet, which is what lets the *first* member swipe
+// in like every other one. At 0 the opening card would carry .is-active
+// from its very first render, and a CSS transition can't run off an
+// initial state — so it would simply appear at center, pre-arrived.
+const activeIndex = ref(-1)
+
+const logoGone = ref(false)
 const stageDone = ref(false)
 const gridBuilt = ref(false)
 
@@ -116,8 +146,23 @@ onMounted(() => {
   }
 
   function runSequence() {
+    // Locked up front rather than once the members start: the lock
+    // exists so a fast scroller can't shoot past the stage, and leaving
+    // the page free through the logo would reintroduce exactly that.
     lockScroll()
 
+    // Logo holds, dissolves, and only once it's gone does the first
+    // member start its swipe — so the two never share the stage.
+    timers.push(
+      window.setTimeout(() => {
+        logoGone.value = true
+      }, LOGO_HOLD_MS),
+    )
+
+    timers.push(window.setTimeout(cueMembers, LOGO_HOLD_MS + LOGO_FADE_MS))
+  }
+
+  function cueMembers() {
     teamMembers.forEach((_, i) => {
       timers.push(
         window.setTimeout(() => {
@@ -133,7 +178,7 @@ onMounted(() => {
           gridBuilt.value = true
           unlockScroll()
         },
-        teamMembers.length * HOLD_MS,
+        (teamMembers.length - 1) * HOLD_MS + SETTLE_MS,
       ),
     )
   }
@@ -201,6 +246,19 @@ onUnmounted(() => {
       class="team-stage"
       :class="{ 'is-done': stageDone }"
     >
+      <!-- opens the sequence, then dissolves to let the roster in.
+           The fade duration is bound here rather than on .team-stage so
+           it can't collide with the --stage-h that measure() sets
+           imperatively on that element. -->
+      <img
+        class="stage-logo"
+        :class="{ 'is-gone': logoGone }"
+        :style="{ '--logo-fade-ms': `${LOGO_FADE_MS}ms` }"
+        src="/LogoUCNFreelance.png"
+        alt=""
+        aria-hidden="true"
+      >
+
       <div
         v-for="(member, index) in teamMembers"
         :key="member.name"
@@ -277,7 +335,7 @@ onUnmounted(() => {
   color: var(--slate);
 
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 500;
 
   letter-spacing: 0.06em;
@@ -342,20 +400,55 @@ onUnmounted(() => {
 
   opacity: 1;
 
+  /* `height` is the property that actually changes, so it's the one
+     that has to be transitioned — a `max-height: 0` alongside it would
+     clamp instantly and cut the collapse short no matter what this
+     list says. Opacity finishes first so the stage has faded out
+     before the space beneath it finishes closing, letting the roster
+     underneath surface through it rather than after it. */
   transition:
-    opacity 500ms ease,
-    max-height 600ms ease,
-    margin-bottom 600ms ease;
+    opacity 420ms ease,
+    height 560ms cubic-bezier(0.4, 0, 0.2, 1),
+    margin-bottom 560ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .team-stage.is-done {
   height: 0;
-  max-height: 0;
   margin-bottom: 0;
 
   opacity: 0;
 
   pointer-events: none;
+}
+
+/* The mark the stage opens on. Sized off the same --stage-h budget as
+   the member cards but deliberately smaller than them, so the roster
+   arrives as a step up rather than a step down. */
+.stage-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  width: min(220px, calc((var(--stage-h, 560px) - 130px) / 2));
+
+  transform: translate(-50%, -50%);
+
+  opacity: 1;
+  pointer-events: none;
+
+  /* Duration comes from LOGO_FADE_MS in the script, so the JS that
+     schedules the first member can't drift out of sync with it. */
+  transition:
+    opacity var(--logo-fade-ms, 420ms) ease,
+    transform var(--logo-fade-ms, 420ms) ease;
+}
+
+/* Same contraction the member cards exit on — a straight fade reads as
+   a dropped frame, a slight shrink reads as a dissolve. */
+.stage-logo.is-gone {
+  transform: translate(-50%, -50%) scale(0.94);
+
+  opacity: 0;
 }
 
 .stage-card {
@@ -368,22 +461,21 @@ onUnmounted(() => {
      stage's own height regardless of how short the viewport is. */
   width: min(340px, calc((var(--stage-h, 560px) - 130px) / 1.25));
 
-  /* Default (not yet shown) sits off to the right, waiting to swipe
-     in; .is-exited moves it past center to the left instead of just
-     back where it came from, so the outgoing and incoming card read
-     as one continuous rightward conveyor rather than a retreat. */
-  transform: translate(-50%, -50%) translateX(90px);
+  /* Waiting off the right edge, ready to swipe in. The stage clips its
+     own overflow, so this only has to clear the viewport — vw rather
+     than a fixed px keeps the entry reading as "from off-screen"
+     instead of a short nudge on a wide monitor. */
+  transform: translate(-50%, -50%) translateX(62vw);
 
   opacity: 0;
   pointer-events: none;
 
+  /* Opacity resolves well before the travel does, so the card is
+     already solid for most of its run in — that's what makes this read
+     as a swipe rather than a fade-in-place. */
   transition:
-    opacity 700ms ease,
-    transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.stage-card.is-exited {
-  transform: translate(-50%, -50%) translateX(-90px);
+    opacity 170ms ease,
+    transform 380ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .stage-card.is-active {
@@ -391,6 +483,20 @@ onUnmounted(() => {
 
   opacity: 1;
   pointer-events: auto;
+}
+
+/* Having arrived, a card leaves by dissolving where it stands rather
+   than sliding onward — center is the destination, so nothing travels
+   back out of it. The slight contraction stops the fade from reading
+   as a dropped frame. */
+.stage-card.is-exited {
+  transform: translate(-50%, -50%) translateX(0) scale(0.96);
+
+  opacity: 0;
+
+  transition:
+    opacity 260ms ease,
+    transform 260ms ease;
 }
 
 .stage-card :deep(.member-info) {

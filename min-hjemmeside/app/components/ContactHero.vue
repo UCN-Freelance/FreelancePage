@@ -67,7 +67,7 @@
   color: var(--slate);
 
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 500;
 
   letter-spacing: 0.06em;
@@ -134,7 +134,7 @@
 .email-label {
   color: var(--slate);
 
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 500;
 
   letter-spacing: 0.06em;
@@ -156,7 +156,7 @@
 
   text-align: right;
 
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.5;
 }
 

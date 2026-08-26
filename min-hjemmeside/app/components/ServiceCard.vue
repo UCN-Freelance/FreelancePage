@@ -48,12 +48,22 @@ withDefaults(
 
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
-  background: var(--bg-raised);
+
+  /* Set (with the rest of the hover tuning) on .services-grid in
+     ServicesGrid.vue; the fallback keeps a standalone card usable. */
+  background: var(--card-surface, #ffffff);
+
+  /* Tight contact edge plus a soft ambient spread, so the card reads as
+     lifted off --card-canvas rather than painted onto it. */
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.06),
+    0 6px 16px -8px rgba(15, 23, 42, 0.14);
 
   transition:
-    transform 260ms cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow 260ms cubic-bezier(0.16, 1, 0.3, 1),
-    border-color 260ms ease;
+    opacity var(--card-hover-ms, 240ms) ease,
+    transform var(--card-hover-ms, 240ms) cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow var(--card-hover-ms, 240ms) ease,
+    border-color var(--card-hover-ms, 240ms) ease;
 }
 
 .accent-bar {
@@ -71,11 +81,12 @@ withDefaults(
   transition: transform 380ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* The lift + scale live on .services-grid in ServicesGrid.vue — the reveal
+   system outranks a plain .service-card:hover on transform, so they have to
+   be written from the grid to take effect. */
 .service-card:hover {
-  transform: translateY(-5px);
-
   border-color: var(--card-accent);
-  box-shadow: 0 18px 34px -18px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 18px 34px -18px rgba(15, 23, 42, 0.26);
 }
 
 .service-card:hover .accent-bar {
@@ -107,7 +118,7 @@ withDefaults(
 
   color: var(--slate);
 
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.6;
 }
 
@@ -131,7 +142,7 @@ withDefaults(
   color: var(--ink-soft);
 
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 13px;
 
   transition: border-color 220ms ease;
 }
@@ -150,7 +161,7 @@ withDefaults(
   }
 
   .card-content p {
-    font-size: 12.5px;
+    font-size: 14px;
   }
 
   .service-items {

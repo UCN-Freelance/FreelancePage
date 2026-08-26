@@ -149,7 +149,7 @@ const navItems = [
 
 .brand-name {
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   letter-spacing: -0.01em;
 
@@ -179,7 +179,7 @@ const navItems = [
 
   color: var(--ink-soft);
 
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
 
   text-decoration: none;
@@ -230,7 +230,7 @@ const navItems = [
   background: var(--chip-bg);
   color: var(--chip-text);
 
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
 
   text-decoration: none;

@@ -9,6 +9,22 @@ interface RevealOptions {
   direction?: RevealDirection | ((index: number) => RevealDirection)
 }
 
+/** Entrance transition duration, matching html.js .reveal-item in main.css. */
+const REVEAL_MS = 560
+
+/**
+ * The stagger is an inline transition-delay, so it applies to every later
+ * transition on the element too — a hover on the last item would sit idle
+ * for the whole stagger before responding. Drop it once the item has landed.
+ */
+function clearStaggerWhenLanded(el: HTMLElement) {
+  const delay = Number.parseFloat(el.style.transitionDelay) || 0
+
+  window.setTimeout(() => {
+    el.style.transitionDelay = ''
+  }, delay + REVEAL_MS)
+}
+
 /**
  * Reveals items inside a container one after another as they scroll into
  * view — each item is the "next step". Direction defaults to rising up
@@ -37,7 +53,10 @@ export function useStairReveal(
     })
 
     if (!('IntersectionObserver' in window)) {
-      items.forEach((el) => el.classList.add('is-visible'))
+      items.forEach((el) => {
+        el.classList.add('is-visible')
+        clearStaggerWhenLanded(el)
+      })
       return
     }
 
@@ -45,8 +64,11 @@ export function useStairReveal(
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible')
-            observer.unobserve(entry.target)
+            const el = entry.target as HTMLElement
+
+            el.classList.add('is-visible')
+            clearStaggerWhenLanded(el)
+            observer.unobserve(el)
           }
         }
       },

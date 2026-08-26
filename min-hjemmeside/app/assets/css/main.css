@@ -14,7 +14,7 @@
   --ink-soft: #475569;
   --accent: #6366f1;
   --accent-ink: #ffffff;
-  --slate: #64748b;
+  --slate: #556376;
   --success: #10b981;
   --warning: #f59e0b;
   --line: rgba(30, 41, 59, 0.1);
@@ -33,6 +33,30 @@
   --chip-bg: #1e293b;
   --chip-text: #fafafa;
 
+  /* =======================================================
+     SERVICE CARD TUNING — shared by both service grids: the
+     homepage mosaic (index.vue) and the /services grid
+     (ServicesGrid.vue). The lift + scale are specific to
+     /services and live on .services-grid over there.
+     ======================================================= */
+
+  /* Canvas painted behind the cards, replacing --bg on those sections.
+     THIS is the knob that controls how much the cards stand out: the
+     card itself is already white and can't go lighter, so contrast has
+     to come from deepening what sits behind it. Lower = more contrast.
+     #f1f5f9 is subtle, #e8edf5 is clear, #e2e8f0 is strong. */
+  --card-canvas: #e8edf5;
+
+  /* The card itself, sitting on --card-canvas. */
+  --card-surface: #ffffff;
+
+  /* Opacity of the cards you are NOT hovering. 1 = no dimming at all,
+     lower = the hovered card stands out more. */
+  --card-dim: 0.45;
+
+  /* Speed of the dim (and, on /services, the lift + grow). */
+  --card-hover-ms: 240ms;
+
   color-scheme: light;
 }
 
@@ -45,6 +69,8 @@ body {
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 
   /* This IS the base color everywhere (not just a fallback) — the
@@ -58,6 +84,7 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display);
+  line-height: 1.15;
 }
 
 a {

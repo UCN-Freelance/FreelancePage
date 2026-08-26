@@ -144,7 +144,8 @@ useStairReveal(gridEl, '.service-card', {
 .services-grid-section {
   padding: 10px 40px 110px;
 
-  background: var(--bg);
+  /* Deeper than --bg so the white cards have something to sit on. */
+  background: var(--card-canvas);
 }
 
 .services-container {
@@ -165,7 +166,7 @@ useStairReveal(gridEl, '.service-card', {
   color: var(--slate);
 
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 500;
 
   letter-spacing: 0.06em;
@@ -197,6 +198,45 @@ useStairReveal(gridEl, '.service-card', {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 
   gap: 20px;
+
+  /* =======================================================
+     Lift + scale are specific to this grid — the homepage
+     mosaic has flush 1px seams that scaling would tear open.
+     The shared knobs (--card-surface, --card-dim,
+     --card-hover-ms) are in :root in main.css. Override any
+     of them here to make /services differ from the homepage.
+     ======================================================= */
+
+  /* How much the hovered card grows. 1 = no growth. */
+  --card-hover-scale: 1.035;
+
+  /* How far the hovered card lifts. Negative = upward. */
+  --card-hover-lift: -6px;
+}
+
+/* The reveal (useStairReveal) owns opacity + transform on its way in and
+   wins on specificity, so the hover states only take over once .is-visible
+   is on — and they set their own transition to escape the slower 560ms
+   entrance one. */
+.services-grid .service-card.is-visible {
+  transition:
+    opacity var(--card-hover-ms) ease,
+    transform var(--card-hover-ms) cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow var(--card-hover-ms) ease,
+    border-color var(--card-hover-ms) ease;
+}
+
+/* Hovering anywhere in the grid pushes every card back... */
+.services-grid:hover .service-card.is-visible {
+  opacity: var(--card-dim);
+}
+
+/* ...and the one actually under the cursor comes forward. */
+.services-grid .service-card.is-visible:hover {
+  z-index: 2;
+
+  opacity: 1;
+  transform: translateY(var(--card-hover-lift)) scale(var(--card-hover-scale));
 }
 
 @media (max-width: 1050px) {
