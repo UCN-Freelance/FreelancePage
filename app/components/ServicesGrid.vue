@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useStairReveal } from '~/composables/useStairReveal'
+import { useCardTilt } from '~/composables/useCardTilt'
 
 const services = [
   {
@@ -103,13 +104,14 @@ const services = [
   },
 ]
 
-const accentColors = ['#6366f1', '#4f46e5', '#4338ca', '#3730a3']
+const accentColors = ['#d2ff00', '#b2c73a', '#ff6b00', '#8fa62e']
 
 const gridEl = ref<HTMLElement | null>(null)
 
 useStairReveal(gridEl, '.service-card', {
   direction: (i) => (i % 2 === 0 ? 'left' : 'right'),
 })
+useCardTilt(gridEl, '.service-card')
 </script>
 
 <template>
@@ -199,6 +201,11 @@ useStairReveal(gridEl, '.service-card', {
 
   gap: 20px;
 
+  /* Shared vanishing point for the per-card tilt. Set on the grid rather
+     than each card so neighbouring cards lean into one consistent space
+     instead of each having its own. */
+  perspective: 1200px;
+
   /* =======================================================
      Lift + scale are specific to this grid — the homepage
      mosaic has flush 1px seams that scaling would tear open.
@@ -231,12 +238,20 @@ useStairReveal(gridEl, '.service-card', {
   opacity: var(--card-dim);
 }
 
-/* ...and the one actually under the cursor comes forward. */
+/* ...and the one actually under the cursor comes forward, leaning toward
+   the pointer. --tilt-x / --tilt-y are written per-card by useCardTilt;
+   they default to 0deg so the rule is inert until it has real values,
+   and stay 0deg for reduced-motion and touch, where the composable
+   never attaches. */
 .services-grid .service-card.is-visible:hover {
   z-index: 2;
 
   opacity: 1;
-  transform: translateY(var(--card-hover-lift)) scale(var(--card-hover-scale));
+  transform:
+    translateY(var(--card-hover-lift))
+    scale(var(--card-hover-scale))
+    rotateX(var(--tilt-x, 0deg))
+    rotateY(var(--tilt-y, 0deg));
 }
 
 @media (max-width: 1050px) {
