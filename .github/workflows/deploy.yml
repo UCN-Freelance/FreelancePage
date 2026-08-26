@@ -29,11 +29,29 @@ jobs:
             echo "Updating main..."
             git reset --hard origin/main
 
-            echo "Installing dependencies..."
-            npm ci
-
-            echo "Building and Restarting website..."
+            # No `npm ci` here on purpose. The nuxt service runs its own
+            # `npm ci && npm run build` against this same bind-mounted
+            # directory, as root, so node_modules on the host ends up
+            # owned by root:root. A host-level npm ci then runs as the
+            # deploy user and dies with EACCES trying to unlink those
+            # files. It was duplicated work even when it did succeed.
+            echo "Building and restarting website..."
             docker compose down
             docker compose up -d
 
-            echo "Deployment complete."
+            # `up -d` returns as soon as the container starts, long before
+            # `npm ci && npm run build` finishes inside it. Without this
+            # wait a failed build leaves the workflow green and the site
+            # down, since `down` has already stopped the old container.
+            echo "Waiting for the build to finish and the app to start..."
+            for i in $(seq 1 120); do
+              if docker compose logs nuxt 2>&1 | grep -q "Listening on"; then
+                echo "Deployment complete."
+                exit 0
+              fi
+              sleep 5
+            done
+
+            echo "App did not start within 10 minutes. Recent logs:"
+            docker compose logs --tail=100 nuxt
+            exit 1
