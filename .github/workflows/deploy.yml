@@ -23,8 +23,12 @@ jobs:
 
             cd /home/next/Docker/FreelancePage
 
-            echo "installing pm2"
-            npm install pm2@latest -g
+            echo "Ensuring pm2 is available..."
+            export PATH="$HOME/.npm-global/bin:$PATH"
+            if ! command -v pm2 >/dev/null 2>&1; then
+              npm config set prefix "$HOME/.npm-global"
+              npm install -g pm2@latest
+            fi
 
             echo "Fetching latest code..."
             git fetch origin main
