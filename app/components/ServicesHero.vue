@@ -2,9 +2,7 @@
   <section class="services-hero">
     <div class="hero-container">
       <div class="hero-copy">
-        <span class="hero-label">
-          Ydelser
-        </span>
+        <span class="hero-label">Ydelser</span>
 
         <h1>
           Software bygget
@@ -17,13 +15,21 @@
           der løser konkrete problemer og passer ind i den måde, I arbejder på.
         </p>
       </div>
+
+      <div class="hero-side">
+        <span class="side-number">Discipliner</span>
+        <p>
+          Se listen nedenfor for at finde det, der matcher jeres udfordring —
+          eller skriv til os, hvis I er i tvivl om, hvor I skal starte.
+        </p>
+      </div>
     </div>
   </section>
 </template>
 
 <style scoped>
 .services-hero {
-  padding: 110px 24px 100px;
+  padding: 64px 24px 90px;
 }
 
 .hero-container {
@@ -44,44 +50,45 @@
 .hero-label {
   display: block;
 
-  margin-bottom: 24px;
+  margin-bottom: 22px;
 
-  color: #818793;
+  color: var(--slate);
 
-  font-size: 11px;
-  font-weight: 650;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
 
-  letter-spacing: 0.1em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
 .hero-copy h1 {
   margin: 0;
 
-  color: #111520;
+  color: var(--ink);
 
-  font-size: clamp(58px, 7vw, 96px);
-  font-weight: 650;
+  font-size: clamp(46px, 6vw, 76px);
+  font-weight: 700;
 
-  line-height: 0.91;
-  letter-spacing: -0.065em;
+  line-height: 0.98;
+  letter-spacing: -0.03em;
 }
 
 .hero-copy h1 span {
   display: block;
 
-  color: #a1a6af;
+  color: var(--accent);
 }
 
 .hero-copy p {
   max-width: 700px;
 
-  margin: 34px 0 0;
+  margin: 30px 0 0;
 
-  color: #676d78;
+  color: var(--ink-soft);
 
   font-size: 17px;
-  line-height: 1.75;
+  line-height: 1.7;
 }
 
 .hero-side {
@@ -91,34 +98,33 @@
 
   padding-top: 18px;
 
-  border-top: 1px solid rgba(17, 21, 32, 0.1);
+  border-top: 1px solid var(--line-strong);
 }
 
 .side-number {
   display: block;
 
-  margin-bottom: 14px;
+  margin-bottom: 12px;
 
-  color: #9ba0aa;
+  color: var(--accent);
 
-  font-size: 10px;
-  font-weight: 650;
-
-  letter-spacing: 0.08em;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
 }
 
 .hero-side p {
   margin: 0;
 
-  color: #757b86;
+  color: var(--slate);
 
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.65;
 }
 
 @media (max-width: 850px) {
   .services-hero {
-    padding: 80px 18px 70px;
+    padding: 50px 18px 60px;
   }
 
   .hero-container {
@@ -126,7 +132,7 @@
   }
 
   .hero-copy h1 {
-    font-size: clamp(52px, 14vw, 76px);
+    font-size: clamp(40px, 13vw, 60px);
   }
 
   .hero-copy p {
@@ -136,7 +142,7 @@
   .hero-side {
     width: 100%;
 
-    margin-top: 50px;
+    margin-top: 40px;
   }
 }
 </style>
