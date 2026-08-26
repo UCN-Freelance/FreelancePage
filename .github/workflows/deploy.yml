@@ -23,6 +23,9 @@ jobs:
 
             cd /home/next/Docker/FreelancePage
 
+            echo "installing pm2"
+            npm install pm2@latest -g
+
             echo "Fetching latest code..."
             git fetch origin main
 
