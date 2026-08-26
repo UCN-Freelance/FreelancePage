@@ -1,19 +1,19 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+import { useStairReveal } from '~/composables/useStairReveal'
+
 const services = [
   {
-    number: '01',
     title: 'Webudvikling',
     description:
       'Moderne hjemmesider og webapplikationer bygget med fokus på performance, brugervenlighed og et stærkt visuelt udtryk.',
   },
   {
-    number: '02',
     title: 'Softwareløsninger',
     description:
       'Skræddersyede digitale løsninger, der automatiserer arbejdsgange og løser konkrete forretningsmæssige behov.',
   },
   {
-    number: '03',
     title: 'UI / UX',
     description:
       'Intuitive og moderne interfaces, hvor funktionalitet og design arbejder sammen fra første klik.',
@@ -26,6 +26,24 @@ const principles = [
   'Moderne teknologier',
   'Fokus på reel forretningsværdi',
 ]
+
+const crew = [
+  'Omid',
+  'Mozamel',
+  'Oliver',
+  'Patrick',
+  'Frederik',
+  'Peter',
+  'Magnus',
+]
+
+const servicesGridEl = ref<HTMLElement | null>(null)
+const principlesListEl = ref<HTMLElement | null>(null)
+
+useStairReveal(servicesGridEl, '.service-card', {
+  direction: (i) => (i === 0 ? 'left' : i === 2 ? 'right' : 'up'),
+})
+useStairReveal(principlesListEl, '.principle', { direction: 'right' })
 </script>
 
 <template>
@@ -40,20 +58,16 @@ const principles = [
           </h1>
 
           <p class="hero-description">
-            UCN Freelance er et team af syv udviklere, der hjælper virksomheder
-            med at udvikle moderne software, webapplikationer og digitale
-            produkter.
+            Next Step Freelance er et team af syv udviklere fra UCN, der hjælper
+            virksomheder med at udvikle moderne software, webapplikationer og
+            digitale produkter.
           </p>
 
           <div class="hero-actions">
             <NuxtLink to="/contact" class="primary-button">
               <span>Start et projekt</span>
 
-              <svg
-                viewBox="0 0 20 20"
-                fill="none"
-                aria-hidden="true"
-              >
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
                 <path
                   d="M5 10h10M11 6l4 4-4 4"
                   stroke="currentColor"
@@ -69,51 +83,39 @@ const principles = [
             </NuxtLink>
           </div>
 
-          <div class="hero-meta">
-            <div class="meta-item">
-              <strong>7</strong>
-              <span>Udviklere</span>
-            </div>
-
-            <div class="meta-divider" />
-
-            <div class="meta-item">
-              <strong>1</strong>
-              <span>Samlet team</span>
-            </div>
-
-            <div class="meta-divider" />
-
-            <div class="meta-item">
-              <strong>100%</strong>
-              <span>Fokus på løsningen</span>
-            </div>
+          <div class="hero-crew">
+            <span class="crew-label">Bygget af</span>
+            <p>
+              <span v-for="(name, i) in crew" :key="name">{{ name }}<template v-if="i < crew.length - 1">, </template></span>
+            </p>
           </div>
         </div>
 
         <div class="hero-visual">
-          <div class="logo-glow logo-glow-one" />
-          <div class="logo-glow logo-glow-two" />
-
-          <div class="logo-card">
-            <img
-              src="/LogoUCNFreelance.png"
-              alt="UCN Freelance"
-              class="hero-logo"
-            />
-          </div>
-
-          <div class="floating-tag floating-tag-bottom">
+          <div class="visual-caption">
             <span>Web</span>
             <span>Software</span>
             <span>Design</span>
           </div>
         </div>
       </div>
+
+      <a href="#intro" class="next-cue">
+        <span>Næste trin</span>
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path
+            d="M8 3v10M3.5 9l4.5 4.5L12.5 9"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </a>
     </section>
 
     <!-- INTRO -->
-    <section class="intro-section">
+    <section id="intro" class="intro-section">
       <div class="content-container intro-grid">
         <p class="section-kicker">
           Et mindre team. Tættere samarbejde.
@@ -155,16 +157,12 @@ const principles = [
           </NuxtLink>
         </div>
 
-        <div class="services-grid">
+        <div ref="servicesGridEl" class="services-grid">
           <article
             v-for="service in services"
-            :key="service.number"
+            :key="service.title"
             class="service-card"
           >
-            <span class="service-number">
-              {{ service.number }}
-            </span>
-
             <div class="service-content">
               <h3>{{ service.title }}</h3>
 
@@ -184,7 +182,7 @@ const principles = [
       <div class="content-container why-grid">
         <div class="why-copy">
           <p class="section-kicker">
-            Hvorfor UCN Freelance?
+            Hvorfor Next Step Freelance?
           </p>
 
           <h2>
@@ -202,15 +200,13 @@ const principles = [
           </NuxtLink>
         </div>
 
-        <div class="principles-list">
+        <div ref="principlesListEl" class="principles-list">
           <div
-            v-for="(principle, index) in principles"
+            v-for="principle in principles"
             :key="principle"
             class="principle"
           >
-            <span>
-              0{{ index + 1 }}
-            </span>
+            <span class="principle-tick" />
 
             <p>
               {{ principle }}
@@ -243,11 +239,7 @@ const principles = [
           <NuxtLink to="/contact" class="cta-large-button">
             <span>Kontakt os</span>
 
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              aria-hidden="true"
-            >
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path
                 d="M6 12h12M13 7l5 5-5 5"
                 stroke="currentColor"
@@ -265,9 +257,7 @@ const principles = [
 
 <style scoped>
 main {
-  overflow: hidden;
-  background: #f8f9fb;
-  color: #111520;
+  color: var(--ink);
 }
 
 /* =========================
@@ -283,12 +273,13 @@ main {
 .section-kicker {
   margin: 0;
 
-  color: #808691;
+  color: var(--slate);
 
-  font-size: 12px;
-  font-weight: 650;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
 
-  letter-spacing: 0.1em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
@@ -298,11 +289,12 @@ main {
 
 .hero {
   position: relative;
-  padding: 76px 0 120px;
+
+  padding: 64px 0 120px;
 }
 
 .hero-container {
-  min-height: 650px;
+  min-height: 620px;
 
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(420px, 0.95fr);
@@ -314,7 +306,6 @@ main {
 
 .hero-content {
   position: relative;
-  z-index: 2;
 }
 
 .hero h1 {
@@ -322,28 +313,28 @@ main {
 
   margin: 0;
 
-  font-size: clamp(58px, 6vw, 88px);
-  font-weight: 650;
+  font-size: clamp(52px, 5.6vw, 80px);
+  font-weight: 700;
 
-  line-height: 0.92;
-  letter-spacing: -0.065em;
+  line-height: 0.96;
+  letter-spacing: -0.03em;
 }
 
 .hero h1 span {
   display: block;
 
-  color: #9ea4ae;
+  color: var(--accent);
 }
 
 .hero-description {
-  max-width: 590px;
+  max-width: 560px;
 
-  margin: 34px 0 0;
+  margin: 30px 0 0;
 
-  color: #626874;
+  color: var(--ink-soft);
 
   font-size: 17px;
-  line-height: 1.75;
+  line-height: 1.7;
 }
 
 .hero-actions {
@@ -364,17 +355,17 @@ main {
   align-items: center;
   justify-content: center;
 
-  border-radius: 13px;
+  border-radius: var(--radius-sm);
 
-  font-size: 13px;
-  font-weight: 650;
+  font-size: 15px;
+  font-weight: 600;
 
   text-decoration: none;
 
   transition:
-    transform 180ms ease,
-    box-shadow 180ms ease,
-    background 180ms ease;
+    background 180ms ease,
+    color 180ms ease,
+    border-color 180ms ease;
 }
 
 .primary-button {
@@ -382,11 +373,8 @@ main {
 
   padding: 0 20px;
 
-  background: #111520;
-  color: white;
-
-  box-shadow:
-    0 8px 24px rgba(17, 21, 32, 0.14);
+  background: var(--chip-bg);
+  color: var(--chip-text);
 }
 
 .primary-button svg {
@@ -397,12 +385,8 @@ main {
 }
 
 .primary-button:hover {
-  transform: translateY(-2px);
-
-  background: #202634;
-
-  box-shadow:
-    0 12px 30px rgba(17, 21, 32, 0.18);
+  background: var(--accent);
+  color: var(--accent-ink);
 }
 
 .primary-button:hover svg {
@@ -412,179 +396,132 @@ main {
 .secondary-button {
   padding: 0 18px;
 
-  border: 1px solid rgba(17, 21, 32, 0.09);
+  border: 1px solid var(--line-strong);
 
-  background: rgba(255, 255, 255, 0.6);
-  color: #383e49;
+  background: transparent;
+  color: var(--ink-soft);
 }
 
 .secondary-button:hover {
-  transform: translateY(-2px);
-
-  background: white;
+  border-color: var(--ink);
+  color: var(--ink);
 }
 
-.hero-meta {
-  display: flex;
-  align-items: center;
-
-  gap: 20px;
-
+.hero-crew {
   margin-top: 54px;
+  padding-top: 22px;
+
+  border-top: 1px solid var(--line);
 }
 
-.meta-item {
-  display: flex;
-  flex-direction: column;
+.crew-label {
+  display: block;
 
-  gap: 3px;
+  margin-bottom: 8px;
+
+  color: var(--slate);
+
+  font-family: var(--font-mono);
+  font-size: 13px;
+
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
-.meta-item strong {
-  font-size: 20px;
-  font-weight: 700;
+.hero-crew p {
+  margin: 0;
+  max-width: 420px;
 
-  letter-spacing: -0.04em;
-}
+  color: var(--ink-soft);
 
-.meta-item span {
-  color: #858b95;
-
-  font-size: 11px;
-  font-weight: 500;
-}
-
-.meta-divider {
-  width: 1px;
-  height: 34px;
-
-  background: rgba(17, 21, 32, 0.09);
+  font-size: 15px;
+  line-height: 1.7;
 }
 
 /* =========================
-   HERO LOGO
+   HERO STAIRCASE
    ========================= */
 
 .hero-visual {
   position: relative;
 
-  min-height: 560px;
+  min-height: 480px;
 
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
 }
 
-.logo-card {
-  position: relative;
-  z-index: 2;
-
-  width: min(100%, 500px);
-  aspect-ratio: 1;
+.visual-caption {
+  position: absolute;
+  top: 10px;
+  right: 0;
 
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  align-items: flex-end;
 
-  padding: 62px;
-
-  border: 1px solid rgba(17, 21, 32, 0.07);
-  border-radius: 36px;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255, 255, 255, 0.95),
-      rgba(244, 246, 249, 0.75)
-    );
-
-  box-shadow:
-    0 20px 70px rgba(20, 25, 40, 0.08),
-    inset 0 1px 0 rgba(255, 255, 255, 0.9);
-
-  transform: rotate(2deg);
+  gap: 6px;
 }
 
-.hero-logo {
-  width: 100%;
-  height: 100%;
+.visual-caption span {
+  padding: 5px 10px;
 
-  display: block;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
 
-  object-fit: contain;
+  color: var(--slate);
 
-  transform: rotate(-2deg);
+  font-family: var(--font-mono);
+  font-size: 13px;
 }
 
-.logo-glow {
+.next-cue {
   position: absolute;
-
-  border-radius: 50%;
-
-  filter: blur(70px);
-
-  pointer-events: none;
-}
-
-.logo-glow-one {
-  width: 230px;
-  height: 230px;
-
-  top: 80px;
-  right: 20px;
-
-  background: rgba(40, 108, 255, 0.14);
-}
-
-.logo-glow-two {
-  width: 270px;
-  height: 270px;
-
-  bottom: 30px;
-  left: 10px;
-
-  background: rgba(15, 36, 66, 0.08);
-}
-
-.floating-tag {
-  position: absolute;
-  z-index: 3;
+  bottom: 28px;
+  left: 50%;
 
   display: flex;
+  flex-direction: column;
   align-items: center;
 
-  border: 1px solid rgba(17, 21, 32, 0.07);
+  gap: 4px;
 
-  background: rgba(255, 255, 255, 0.88);
+  color: var(--slate);
 
-  backdrop-filter: blur(14px);
+  text-decoration: none;
 
-  box-shadow:
-    0 10px 28px rgba(17, 21, 32, 0.08);
+  transform: translateX(-50%);
+
+  animation: cue-bounce 2200ms ease-in-out infinite;
 }
 
-.floating-tag-bottom {
-  bottom: 48px;
-  left: -16px;
+.next-cue span {
+  font-family: var(--font-mono);
+  font-size: 13px;
 
-  gap: 7px;
-
-  padding: 9px;
-
-  border-radius: 14px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
-.floating-tag-bottom span {
-  padding: 7px 10px;
+.next-cue svg {
+  width: 14px;
+  height: 14px;
+}
 
-  border-radius: 8px;
+.next-cue:hover {
+  color: var(--accent);
+}
 
-  background: #f3f5f7;
+@keyframes cue-bounce {
+  0%,
+  100% {
+    transform: translate(-50%, 0);
+  }
 
-  color: #666c77;
-
-  font-size: 10px;
-  font-weight: 600;
+  50% {
+    transform: translate(-50%, 6px);
+  }
 }
 
 /* =========================
@@ -592,11 +529,10 @@ main {
    ========================= */
 
 .intro-section {
-  padding: 120px 0;
+  padding: 110px 0;
 
-  border-top: 1px solid rgba(17, 21, 32, 0.07);
-
-  background: white;
+  border-top: 1px solid var(--line);
+  background: var(--bg-raised);
 }
 
 .intro-grid {
@@ -615,11 +551,11 @@ main {
 .why-copy h2 {
   margin: 0;
 
-  font-size: clamp(42px, 5vw, 67px);
-  font-weight: 650;
+  font-size: clamp(38px, 4.4vw, 58px);
+  font-weight: 700;
 
-  line-height: 0.98;
-  letter-spacing: -0.055em;
+  line-height: 1.04;
+  letter-spacing: -0.02em;
 }
 
 .intro-copy h2 span,
@@ -627,15 +563,15 @@ main {
 .why-copy h2 span {
   display: block;
 
-  color: #a2a7b0;
+  color: var(--slate);
 }
 
 .intro-copy > p {
   max-width: 650px;
 
-  margin: 30px 0 0;
+  margin: 28px 0 0;
 
-  color: #686e79;
+  color: var(--ink-soft);
 
   font-size: 16px;
   line-height: 1.8;
@@ -646,7 +582,13 @@ main {
    ========================= */
 
 .services-section {
-  padding: 120px 0;
+  padding: 110px 0;
+
+  /* Deeper than --bg so the white mosaic tiles have something to sit on.
+     The intro band above is --bg-raised, a close neighbour, so the same
+     hairline .intro-section uses keeps the two bands distinct. */
+  border-top: 1px solid var(--line);
+  background: var(--card-canvas);
 }
 
 .services-header {
@@ -656,11 +598,11 @@ main {
 
   gap: 40px;
 
-  margin-bottom: 70px;
+  margin-bottom: 60px;
 }
 
 .services-header .section-kicker {
-  margin-bottom: 22px;
+  margin-bottom: 20px;
 }
 
 .text-link {
@@ -668,10 +610,11 @@ main {
 
   margin-bottom: 8px;
 
-  color: #555b66;
+  color: var(--ink-soft);
 
-  font-size: 13px;
-  font-weight: 600;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 500;
 
   text-decoration: none;
 }
@@ -692,82 +635,74 @@ main {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 
-  gap: 18px;
+  gap: 1px;
+
+  border: 1px solid var(--line);
+  background: var(--line);
 }
 
 .service-card {
-  min-height: 180px;
+  min-height: 200px;
 
   padding: 28px;
 
   display: flex;
   flex-direction: column;
 
-  border: 1px solid rgba(17, 21, 32, 0.07);
-  border-radius: 22px;
-
-  background: rgba(255, 255, 255, 0.72);
-
-  transition:
-    transform 220ms ease,
-    box-shadow 220ms ease,
-    background 220ms ease;
+  /* Sharper than the --bg section behind it, so the mosaic reads as
+     tiles instead of dissolving into the page. Tuned in main.css. */
+  background: var(--card-surface);
 }
 
-.service-card:hover {
-  transform: translateY(-5px);
+/* Hovering dims the rest of the mosaic rather than shading the hovered
+   tile — on a white surface, darkening the hovered one reads backwards.
+   No lift or scale here: the tiles are flush with 1px seams that a
+   transform would tear open.
 
-  background: white;
-
-  box-shadow:
-    0 18px 50px rgba(18, 22, 33, 0.08);
+   The reveal (useStairReveal) owns opacity on the way in and outranks a
+   plain :hover, so these wait for .is-visible before taking over — and
+   set their own transition to escape the slower 560ms entrance one. */
+.services-grid .service-card.is-visible {
+  transition: opacity var(--card-hover-ms) ease;
 }
 
-.service-number {
-  color: #9da2ab;
-
-  font-size: 11px;
-  font-weight: 600;
-
-  letter-spacing: 0.08em;
+.services-grid:hover .service-card.is-visible {
+  opacity: var(--card-dim);
 }
 
-.service-content {
-  margin-top: auto;
+.services-grid .service-card.is-visible:hover {
+  opacity: 1;
 }
 
 .service-content h3 {
   margin: 0;
 
-  font-size: 25px;
-  font-weight: 650;
+  font-size: 24px;
+  font-weight: 700;
 
-  letter-spacing: -0.035em;
+  letter-spacing: -0.02em;
 }
 
 .service-content p {
-  margin: 16px 0 0;
+  margin: 14px 0 0;
 
-  color: #747a85;
+  color: var(--slate);
 
-  font-size: 14px;
-  line-height: 1.7;
+  font-size: 15px;
+  line-height: 1.65;
 }
 
 .service-line {
-  width: 100%;
-  height: 1px;
+  width: 32px;
+  height: 2px;
 
-  margin-top: 30px;
+  margin-top: auto;
 
-  background:
-    linear-gradient(
-      90deg,
-      #246cff 0%,
-      rgba(36, 108, 255, 0) 85%
-    );
+  background: var(--accent);
+}
 
-  opacity: 0.45;
+.service-card:hover .service-line {
+  background: var(--accent);
 }
 
 /* =========================
@@ -775,10 +710,7 @@ main {
    ========================= */
 
 .why-section {
-  padding: 120px 0;
-
-  background: #111520;
-  color: white;
+  padding: 110px 0;
 }
 
 .why-grid {
@@ -791,67 +723,59 @@ main {
 }
 
 .why-copy .section-kicker {
-  margin-bottom: 22px;
-
-  color: #7e8797;
-}
-
-.why-copy h2 {
-  color: white;
-}
-
-.why-copy h2 span {
-  color: #656d7a;
+  margin-bottom: 20px;
 }
 
 .why-copy > p {
   max-width: 590px;
 
-  margin: 28px 0 30px;
+  margin: 26px 0 30px;
 
-  color: #9ba2ad;
+  color: var(--ink-soft);
 
   font-size: 15px;
   line-height: 1.75;
 }
 
-.why-copy .secondary-button {
-  border-color: rgba(255, 255, 255, 0.1);
-
-  background: rgba(255, 255, 255, 0.06);
-  color: white;
-}
-
 .why-copy .secondary-button:hover {
-  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .principles-list {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--line);
 }
 
 .principle {
-  min-height: 88px;
+  min-height: 84px;
 
   display: grid;
-  grid-template-columns: 55px 1fr;
+  grid-template-columns: 46px 1fr;
 
   align-items: center;
 
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--line);
 }
 
-.principle span {
-  color: #606977;
+.principle-tick {
+  width: 16px;
+  height: 2px;
 
-  font-size: 10px;
-  font-weight: 600;
+  background: var(--success);
+
+  transition: background 220ms ease, width 220ms ease;
+}
+
+.principle:hover .principle-tick {
+  width: 24px;
+
+  background: var(--accent);
 }
 
 .principle p {
   margin: 0;
 
-  color: #e8eaf0;
+  color: var(--ink);
 
   font-size: 15px;
   font-weight: 500;
@@ -866,9 +790,9 @@ main {
 }
 
 .cta-card {
-  min-height: 410px;
+  min-height: 380px;
 
-  padding: 58px;
+  padding: 56px;
 
   display: flex;
   align-items: flex-end;
@@ -876,32 +800,21 @@ main {
 
   gap: 50px;
 
-  border: 1px solid rgba(17, 21, 32, 0.07);
-  border-radius: 30px;
-
-  background:
-    radial-gradient(
-      circle at 90% 10%,
-      rgba(36, 108, 255, 0.12),
-      transparent 36%
-    ),
-    white;
-
-  box-shadow:
-    0 18px 60px rgba(18, 22, 33, 0.05);
+  border: 1px solid var(--line-strong);
+  background: var(--bg-raised);
 }
 
 .cta-label {
   display: block;
 
-  margin-bottom: 20px;
+  margin-bottom: 18px;
 
-  color: #858b96;
+  color: var(--slate);
 
-  font-size: 11px;
-  font-weight: 650;
+  font-family: var(--font-mono);
+  font-size: 13px;
 
-  letter-spacing: 0.09em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
@@ -910,39 +823,35 @@ main {
 }
 
 .cta-copy h2 {
-  max-width: 720px;
+  max-width: 680px;
 
   margin: 0;
 
-  font-size: clamp(46px, 5vw, 70px);
-  font-weight: 650;
+  font-size: clamp(38px, 4.4vw, 58px);
+  font-weight: 700;
 
-  line-height: 0.95;
-  letter-spacing: -0.06em;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
 }
 
 .cta-copy h2 span {
   display: block;
 
-  color: #a1a6af;
+  color: var(--slate);
 }
 
 .cta-copy p {
   max-width: 520px;
 
-  margin: 24px 0 0;
+  margin: 22px 0 0;
 
-  color: #6c727d;
+  color: var(--ink-soft);
 
   font-size: 15px;
   line-height: 1.7;
 }
 
-/*
-  Kompakt CTA i stedet for det store firkantede kort
-*/
 .cta-large-button {
-  width: auto;
   height: 54px;
 
   flex-shrink: 0;
@@ -950,54 +859,35 @@ main {
   padding: 0 20px;
 
   display: inline-flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: center;
 
   gap: 11px;
 
-  border-radius: 14px;
+  border-radius: var(--radius-sm);
 
-  background: #111520;
-  color: white;
+  background: var(--chip-bg);
+  color: var(--chip-text);
 
-  font-size: 13px;
-  font-weight: 650;
+  font-size: 15px;
+  font-weight: 600;
 
   text-decoration: none;
 
-  box-shadow:
-    0 8px 22px rgba(17, 21, 32, 0.14);
-
   transition:
-    transform 180ms ease,
     background 180ms ease,
-    box-shadow 180ms ease;
-}
-
-.cta-large-button span {
-  white-space: nowrap;
-
-  font-size: 13px;
-  font-weight: 650;
+    color 180ms ease;
 }
 
 .cta-large-button svg {
   width: 19px;
   height: 19px;
 
-  flex-shrink: 0;
-
   transition: transform 180ms ease;
 }
 
 .cta-large-button:hover {
-  transform: translateY(-2px);
-
-  background: #202634;
-
-  box-shadow:
-    0 12px 28px rgba(17, 21, 32, 0.18);
+  background: var(--accent);
+  color: var(--accent-ink);
 }
 
 .cta-large-button:hover svg {
@@ -1009,10 +899,6 @@ main {
    ========================= */
 
 @media (max-width: 1000px) {
-  .hero {
-    padding-top: 50px;
-  }
-
   .hero-container {
     grid-template-columns: 1fr;
 
@@ -1026,15 +912,7 @@ main {
   .hero-visual {
     min-height: auto;
 
-    padding: 40px 0;
-  }
-
-  .logo-card {
-    width: min(80vw, 520px);
-  }
-
-  .floating-tag-bottom {
-    left: 8%;
+    padding: 20px 0 0;
   }
 
   .intro-grid {
@@ -1057,7 +935,7 @@ main {
   }
 
   .hero {
-    padding: 48px 0 80px;
+    padding: 40px 0 70px;
   }
 
   .hero-container {
@@ -1065,88 +943,49 @@ main {
   }
 
   .hero h1 {
-    font-size: clamp(50px, 15vw, 70px);
+    font-size: clamp(42px, 12vw, 60px);
   }
 
   .hero-description {
     font-size: 15px;
   }
 
-  .hero-meta {
-    gap: 14px;
-  }
-
-  .meta-divider {
-    height: 28px;
-  }
-
-  .logo-card {
-    width: 100%;
-
-    padding: 42px;
-
-    border-radius: 28px;
-  }
-
-  .floating-tag-bottom {
-    bottom: 6px;
-    left: 4px;
-  }
-
   .intro-section,
   .services-section,
   .why-section {
-    padding: 80px 0;
+    padding: 70px 0;
   }
 
   .intro-copy h2,
   .services-header h2,
   .why-copy h2 {
-    font-size: clamp(40px, 12vw, 56px);
+    font-size: clamp(34px, 10vw, 44px);
   }
 
   .services-header {
     align-items: flex-start;
     flex-direction: column;
 
-    margin-bottom: 45px;
+    margin-bottom: 40px;
   }
 
   .services-grid {
     grid-template-columns: 1fr;
   }
 
-  .service-card {
-    min-height: 290px;
-  }
-
   .cta-section {
-    padding: 70px 0 90px;
+    padding: 60px 0 80px;
   }
 
   .cta-card {
     min-height: auto;
 
-    padding: 34px;
+    padding: 30px;
 
     flex-direction: column;
     align-items: flex-start;
-    justify-content: flex-start;
 
-    gap: 34px;
-
-    border-radius: 24px;
-  }
-
-  .cta-copy h2 {
-    font-size: clamp(44px, 12vw, 58px);
-  }
-
-  .cta-large-button {
-    width: auto;
-    height: 52px;
-
-    padding: 0 18px;
+    gap: 30px;
   }
 }
 
@@ -1159,40 +998,6 @@ main {
   .primary-button,
   .secondary-button {
     width: 100%;
-  }
-
-  .hero-meta {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-
-    gap: 10px;
-  }
-
-  .meta-divider {
-    display: none;
-  }
-
-  .meta-item strong {
-    font-size: 17px;
-  }
-
-  .meta-item span {
-    font-size: 9px;
-  }
-
-  .floating-tag-bottom {
-    position: relative;
-
-    bottom: auto;
-    left: auto;
-
-    width: fit-content;
-
-    margin: -15px auto 0;
-  }
-
-  .cta-card {
-    padding: 28px;
   }
 
   .cta-large-button {

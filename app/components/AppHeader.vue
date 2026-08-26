@@ -17,13 +17,14 @@ const navItems = [
       <NuxtLink
         to="/"
         class="brand"
-        aria-label="UCN Freelance - Forside"
+        aria-label="Next Step Freelance - Forside"
       >
         <img
           src="/LogoUCNFreelanceMini.png"
-          alt="UCN Freelance"
+          alt="Next Step Freelance"
           class="brand-logo"
         />
+        <span class="brand-name">Next&nbsp;Step</span>
       </NuxtLink>
 
       <!-- Desktop navigation -->
@@ -106,42 +107,20 @@ const navItems = [
   top: 0;
   z-index: 100;
 
-  padding: 18px 24px;
-
-  background:
-    linear-gradient(
-      to bottom,
-      rgba(248, 249, 251, 0.92),
-      rgba(248, 249, 251, 0.76)
-    );
-
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
 }
 
-/* =========================
-   HEADER BAR
-   ========================= */
-
 .header-inner {
-  max-width: 1240px;
-  height: 72px;
+  max-width: 1280px;
+  height: 76px;
 
   margin: 0 auto;
-  padding: 0 14px 0 18px;
+  padding: 0 24px;
 
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-
-  border: 1px solid rgba(18, 22, 33, 0.08);
-  border-radius: 18px;
-
-  background: rgba(255, 255, 255, 0.78);
-
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.02),
-    0 8px 30px rgba(20, 25, 40, 0.05);
 }
 
 /* =========================
@@ -151,32 +130,30 @@ const navItems = [
 .brand {
   justify-self: start;
 
-  width: 48px;
-  height: 48px;
-
   display: flex;
   align-items: center;
-  justify-content: center;
-
-  flex-shrink: 0;
-
-  overflow: hidden;
+  gap: 10px;
 
   text-decoration: none;
 }
 
 .brand-logo {
-  width: 42px;
-  height: 42px;
-
-  max-width: 42px;
-  max-height: 42px;
+  width: 32px;
+  height: 32px;
 
   display: block;
 
   object-fit: contain;
-
   flex-shrink: 0;
+}
+
+.brand-name {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+
+  color: var(--ink);
 }
 
 /* =========================
@@ -188,17 +165,21 @@ const navItems = [
   align-items: center;
   justify-content: center;
 
-  gap: 6px;
+  gap: 4px;
 }
 
 .nav-link {
-  padding: 10px 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
 
-  border-radius: 10px;
+  padding: 9px 14px;
 
-  color: #626876;
+  border-radius: var(--radius-sm);
 
-  font-size: 14px;
+  color: var(--ink-soft);
+
+  font-size: 15px;
   font-weight: 500;
 
   text-decoration: none;
@@ -209,13 +190,12 @@ const navItems = [
 }
 
 .nav-link:hover {
-  color: #111520;
-  background: #f3f5f7;
+  color: var(--ink);
+  background: rgba(127, 127, 127, 0.12);
 }
 
-/* Active Nuxt route */
 .nav-link.router-link-active {
-  color: #111520;
+  color: var(--accent);
 }
 
 /* =========================
@@ -236,38 +216,33 @@ const navItems = [
    ========================= */
 
 .cta-button {
-  height: 44px;
+  height: 42px;
 
-  padding: 0 17px;
+  padding: 0 16px;
 
   display: inline-flex;
   align-items: center;
 
   gap: 9px;
 
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
 
-  background: #111520;
-  color: white;
+  background: var(--chip-bg);
+  color: var(--chip-text);
 
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
 
   text-decoration: none;
 
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
-    0 6px 18px rgba(17, 21, 32, 0.14);
-
   transition:
-    transform 160ms ease,
-    box-shadow 160ms ease,
-    background 160ms ease;
+    background 160ms ease,
+    color 160ms ease;
 }
 
 .cta-button svg {
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
 
   flex-shrink: 0;
 
@@ -275,13 +250,8 @@ const navItems = [
 }
 
 .cta-button:hover {
-  transform: translateY(-1px);
-
-  background: #202634;
-
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
-    0 9px 24px rgba(17, 21, 32, 0.18);
+  background: var(--accent);
+  color: var(--accent-ink);
 }
 
 .cta-button:hover svg {
@@ -293,8 +263,8 @@ const navItems = [
    ========================= */
 
 .menu-button {
-  width: 44px;
-  height: 44px;
+  width: 42px;
+  height: 42px;
 
   display: none;
 
@@ -304,10 +274,10 @@ const navItems = [
 
   gap: 5px;
 
-  border: 0;
-  border-radius: 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
 
-  background: #f2f4f6;
+  background: transparent;
 
   cursor: pointer;
 }
@@ -318,7 +288,7 @@ const navItems = [
 
   display: block;
 
-  background: #171b24;
+  background: var(--ink);
 
   transition:
     transform 180ms ease,
@@ -338,18 +308,10 @@ const navItems = [
    ========================= */
 
 .mobile-menu {
-  max-width: 1240px;
+  padding: 8px 24px 18px;
 
-  margin: 8px auto 0;
-  padding: 12px;
-
-  border: 1px solid rgba(18, 22, 33, 0.08);
-  border-radius: 18px;
-
-  background: rgba(255, 255, 255, 0.96);
-
-  box-shadow:
-    0 15px 40px rgba(20, 25, 40, 0.08);
+  border-top: 1px solid var(--line);
+  background: var(--bg);
 }
 
 .mobile-nav {
@@ -358,39 +320,35 @@ const navItems = [
 }
 
 .mobile-nav a {
-  padding: 15px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 
-  border-radius: 12px;
+  padding: 15px 4px;
 
-  color: #454b59;
+  border-bottom: 1px solid var(--line);
+
+  color: var(--ink-soft);
 
   font-size: 15px;
   font-weight: 500;
 
   text-decoration: none;
-
-  transition:
-    color 160ms ease,
-    background 160ms ease;
-}
-
-.mobile-nav a:hover {
-  background: #f4f5f7;
-  color: #111520;
 }
 
 .mobile-nav .mobile-contact {
-  margin-top: 8px;
+  margin-top: 14px;
 
-  background: #111520;
-  color: white;
+  justify-content: center;
 
-  text-align: center;
-}
+  padding: 13px 4px;
 
-.mobile-nav .mobile-contact:hover {
-  background: #202634;
-  color: white;
+  border: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  border-radius: var(--radius-sm);
+
+  color: var(--ink);
+  font-weight: 600;
 }
 
 /* =========================
@@ -415,14 +373,10 @@ const navItems = [
    ========================= */
 
 @media (max-width: 850px) {
-  .site-header {
-    padding: 12px;
-  }
-
   .header-inner {
     height: 64px;
 
-    padding: 0 10px 0 12px;
+    padding: 0 18px;
 
     grid-template-columns: 1fr auto;
   }
@@ -436,17 +390,8 @@ const navItems = [
     display: flex;
   }
 
-  .brand {
-    width: 44px;
-    height: 44px;
-  }
-
-  .brand-logo {
-    width: 38px;
-    height: 38px;
-
-    max-width: 38px;
-    max-height: 38px;
+  .brand-name {
+    display: none;
   }
 }
 </style>

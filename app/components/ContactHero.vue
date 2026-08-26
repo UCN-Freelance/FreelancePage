@@ -2,9 +2,7 @@
   <section class="contact-hero">
     <div class="hero-container">
       <div class="hero-copy">
-        <span class="hero-label">
-          Kontakt
-        </span>
+        <span class="hero-label">Kontakt</span>
 
         <h1>
           Har du en idé?
@@ -16,18 +14,15 @@
           Vi vender tilbage og finder sammen ud af, hvordan vi bedst kan hjælpe.
         </p>
 
-        <h3>Kontakt os på
-            10643799@ucn.dk
-        </h3>
+        <a href="mailto:10643799@ucn.dk" class="contact-email">
+          <span class="email-label">Skriv til os</span>
+          10643799@ucn.dk
+        </a>
       </div>
 
-      <div class="hero-decoration">
+      <div class="hero-decoration" aria-hidden="true">
         <div class="decoration-circle">
-          <svg
-            viewBox="0 0 48 48"
-            fill="none"
-            aria-hidden="true"
-          >
+          <svg viewBox="0 0 48 48" fill="none">
             <path
               d="M12 24h24M28 16l8 8-8 8"
               stroke="currentColor"
@@ -37,6 +32,8 @@
             />
           </svg>
         </div>
+
+        <p>Vi svarer typisk<br>inden for 1-2 hverdage.</p>
       </div>
     </div>
   </section>
@@ -44,8 +41,7 @@
 
 <style scoped>
 .contact-hero {
-  padding: 110px 24px 90px;
-  background: #f8f9fb;
+  padding: 64px 24px 100px;
 }
 
 .hero-container {
@@ -60,49 +56,89 @@
 }
 
 .hero-copy {
-  max-width: 850px;
+  max-width: 780px;
 }
 
 .hero-label {
   display: block;
 
-  margin-bottom: 24px;
+  margin-bottom: 22px;
 
-  color: #818793;
+  color: var(--slate);
 
-  font-size: 11px;
-  font-weight: 650;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
 
-  letter-spacing: 0.1em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
 .hero-copy h1 {
   margin: 0;
 
-  color: #111520;
+  color: var(--ink);
 
-  font-size: clamp(58px, 7vw, 96px);
-  font-weight: 650;
+  font-size: clamp(46px, 6vw, 76px);
+  font-weight: 700;
 
-  line-height: 0.91;
-  letter-spacing: -0.065em;
+  line-height: 0.98;
+  letter-spacing: -0.03em;
 }
 
 .hero-copy h1 span {
   display: block;
-  color: #a1a6af;
+  color: var(--accent);
 }
 
 .hero-copy p {
-  max-width: 650px;
+  max-width: 620px;
 
-  margin: 34px 0 0;
+  margin: 30px 0 0;
 
-  color: #676d78;
+  color: var(--ink-soft);
 
   font-size: 17px;
-  line-height: 1.75;
+  line-height: 1.7;
+}
+
+.contact-email {
+  display: inline-flex;
+  flex-direction: column;
+
+  gap: 6px;
+
+  margin-top: 40px;
+  padding: 20px 24px;
+
+  border: 1px solid var(--line-strong);
+
+  color: var(--ink);
+
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 500;
+
+  text-decoration: none;
+
+  transition:
+    background 180ms ease,
+    border-color 180ms ease;
+}
+
+.contact-email:hover {
+  border-color: var(--accent);
+  background: rgba(127, 127, 127, 0.08);
+}
+
+.email-label {
+  color: var(--slate);
+
+  font-size: 13px;
+  font-weight: 500;
+
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .hero-decoration {
@@ -114,20 +150,37 @@
   flex-direction: column;
   align-items: flex-end;
 
-  gap: 14px;
+  gap: 16px;
 
-  color: #808691;
+  color: var(--slate);
 
   text-align: right;
 
-  font-size: 11px;
+  font-size: 14px;
   line-height: 1.5;
 }
 
+.decoration-circle {
+  width: 56px;
+  height: 56px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid var(--line-strong);
+
+  color: var(--accent);
+}
+
+.decoration-circle svg {
+  width: 22px;
+  height: 22px;
+}
 
 @media (max-width: 800px) {
   .contact-hero {
-    padding: 80px 18px 65px;
+    padding: 50px 18px 70px;
   }
 
   .hero-container {
@@ -139,10 +192,16 @@
   }
 
   .hero-copy h1 {
-    font-size: clamp(52px, 14vw, 76px);
+    font-size: clamp(40px, 13vw, 60px);
   }
 
   .hero-copy p {
+    font-size: 15px;
+  }
+
+  .contact-email {
+    width: 100%;
+
     font-size: 15px;
   }
 }
