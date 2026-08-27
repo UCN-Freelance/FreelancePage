@@ -72,6 +72,11 @@ body {
   font-size: 16px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+
+  /* This IS the base color everywhere (not just a fallback) — the
+     ambient 3D layer (AmbientScene, mounted once in app.vue) sits
+     behind everything and shows through hero sections that don't
+     paint their own background. */
 }
 
 h1,
