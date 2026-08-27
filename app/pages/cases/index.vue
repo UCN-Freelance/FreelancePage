@@ -1,15 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useStairReveal } from '~/composables/useStairReveal'
 import { caseStudies } from '~/data/cases'
 
 const accentColors = ['#6366f1', '#4f46e5', '#4338ca', '#3730a3']
-
-const gridEl = ref<HTMLElement | null>(null)
-
-useStairReveal(gridEl, '.case-card', {
-  direction: (i) => (i % 2 === 0 ? 'left' : 'right'),
-})
 </script>
 
 <template>
@@ -34,7 +26,7 @@ useStairReveal(gridEl, '.case-card', {
 
     <section class="cases-section">
       <div class="section-box">
-        <div ref="gridEl" class="cases-grid">
+        <div class="cases-grid">
           <CaseCard
             v-for="(caseItem, index) in caseStudies"
             :key="caseItem.slug"
@@ -133,17 +125,18 @@ useStairReveal(gridEl, '.case-card', {
   gap: 22px;
 }
 
-/* Written from the grid, not from .case-card:hover in CaseCard.vue: the
-   reveal's `html.js .reveal-item.is-visible { transform: none }` scores
-   (0,3,1) and outranks a scoped .case-card:hover at (0,3,0), so the lift
-   there never actually applied. From here it wins at (0,5,0). */
-.cases-grid .case-card.is-visible:hover {
+/* Still written from the grid rather than CaseCard.vue's own
+   .case-card:hover — the scoped rule there sets border and shadow, and
+   keeping the transform here means the lift and those stay in one place.
+   The .is-visible qualifier these used to carry existed only to outrank
+   the scroll-reveal's entrance transform, which no longer exists. */
+.cases-grid .case-card:hover {
   z-index: 2;
 
   transform: translateY(-6px);
 }
 
-.cases-grid .case-card.is-visible {
+.cases-grid .case-card {
   transition:
     transform 240ms cubic-bezier(0.16, 1, 0.3, 1),
     box-shadow 240ms ease,

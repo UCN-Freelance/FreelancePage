@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useStairReveal } from '~/composables/useStairReveal'
 
 // The landing page's whole job is to point at the other three pages, so
 // the sections below are a directory rather than a pitch: one line each,
@@ -34,12 +32,6 @@ const destinations = [
     cta: 'Mød teamet',
   },
 ]
-
-const destinationsEl = ref<HTMLElement | null>(null)
-
-useStairReveal(destinationsEl, '.destination-card', {
-  direction: (i) => (i === 0 ? 'left' : i === 2 ? 'right' : 'up'),
-})
 </script>
 
 <template>
@@ -85,7 +77,7 @@ useStairReveal(destinationsEl, '.destination-card', {
     <!-- WHERE TO GO NEXT — the three other pages, one card each -->
     <section class="destinations-section">
       <div class="section-box">
-        <div ref="destinationsEl" class="destinations-grid">
+        <div class="destinations-grid">
           <NuxtLink
             v-for="destination in destinations"
             :key="destination.to"

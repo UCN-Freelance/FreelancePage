@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useStairReveal } from '~/composables/useStairReveal'
 
 const services = [
   {
@@ -104,12 +102,6 @@ const services = [
 ]
 
 const accentColors = ['#6366f1', '#4f46e5', '#4338ca', '#3730a3']
-
-const gridEl = ref<HTMLElement | null>(null)
-
-useStairReveal(gridEl, '.service-card', {
-  direction: (i) => (i % 2 === 0 ? 'left' : 'right'),
-})
 </script>
 
 <template>
@@ -118,7 +110,7 @@ useStairReveal(gridEl, '.service-card', {
        box holding the cards. -->
   <section class="services-grid-section">
     <div class="section-box">
-      <div ref="gridEl" class="services-grid">
+      <div class="services-grid">
         <ServiceCard
           v-for="(service, index) in services"
           :key="service.title"
@@ -154,11 +146,10 @@ useStairReveal(gridEl, '.service-card', {
   --card-hover-lift: -4px;
 }
 
-/* The reveal (useStairReveal) owns opacity + transform on its way in and
-   wins on specificity, so the hover states only take over once .is-visible
-   is on — and they set their own transition to escape the slower 560ms
-   entrance one. */
-.services-grid .service-card.is-visible {
+/* These used to be qualified with .is-visible, the class the scroll-reveal
+   added, purely so they'd outrank its entrance transform. The reveal is
+   gone, so the plain selectors are enough. */
+.services-grid .service-card {
   transition:
     transform var(--card-hover-ms) cubic-bezier(0.16, 1, 0.3, 1),
     box-shadow var(--card-hover-ms) ease,
@@ -169,7 +160,7 @@ useStairReveal(gridEl, '.service-card', {
    expand in place now, and both of those fought with reading one that is
    open — scale blurred its text mid-transition, and the dim greyed out
    the seven cards you were comparing it against. */
-.services-grid .service-card.is-visible:hover {
+.services-grid .service-card:hover {
   z-index: 2;
 
   transform: translateY(var(--card-hover-lift));

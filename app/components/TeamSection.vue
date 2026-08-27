@@ -49,13 +49,10 @@ function imagePath(name: string) {
 // grid positions. There is no separate carousel stage any more, so a
 // member is only ever drawn once, in the place it ends up.
 //
-// Deliberately self-contained rather than routed through the shared
-// html.js scroll-reveal system: this section nests deep enough that
-// its onMounted can run before the app root's (Vue mounts children
-// before parents), so relying on that global gate is fragile here.
-// Everything below is visible by default and only ever hidden by JS
-// that has actually run, so a slow/failed mount can never leave
-// content stuck invisible.
+// Self-contained: this is the only entrance animation left on the site
+// now that the shared scroll-reveal is gone. Everything below is visible
+// by default and only ever hidden by JS that has actually run, so a
+// slow or failed mount can never leave the roster stuck invisible.
 
 // How long the mark sits on screen before it starts to go.
 const LOGO_HOLD_MS = 900
