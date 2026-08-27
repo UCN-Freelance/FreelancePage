@@ -1,6 +1,8 @@
 <template>
   <section class="contact-hero">
-    <div class="hero-container">
+    <!-- .is-plain (main.css): opaque, so the copy is not read through
+         the staircase pattern behind it. -->
+    <div class="section-box is-plain hero-container">
       <div class="hero-copy">
         <span class="hero-label">Kontakt</span>
 
@@ -41,12 +43,14 @@
 
 <style scoped>
 .contact-hero {
-  padding: 64px 24px 100px;
+  padding: 40px 0 56px;
 }
 
+/* Width, colour and radius come from .section-box.is-plain; only the
+   vertical breathing room and the two-column split are local. */
 .hero-container {
-  max-width: 1240px;
-  margin: 0 auto;
+  padding-top: 56px;
+  padding-bottom: 56px;
 
   display: flex;
   align-items: flex-end;

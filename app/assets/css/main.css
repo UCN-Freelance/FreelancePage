@@ -68,17 +68,25 @@
 
 body {
   margin: 0;
-  background: var(--bg);
+
+  /* The staircase — "Next Step" — tiled across every page, replacing the
+     WebGL scene that used to sit behind the content. The SVG is
+     transparent, so --bg is what's actually being tinted here; the
+     pattern only draws the lines over it.
+
+     Because this makes the page surface busy, nothing should sit
+     directly on it: every block of text belongs in a .section-box
+     (or .section-box.is-plain), which is opaque and covers the
+     pattern where it would otherwise run under the words. */
+  background-color: var(--bg);
+  background-image: url('/pattern-stairs.svg');
+  background-repeat: repeat;
+
   color: var(--ink);
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-
-  /* This IS the base color everywhere (not just a fallback) — the
-     ambient 3D layer (AmbientScene, mounted once in app.vue) sits
-     behind everything and shows through hero sections that don't
-     paint their own background. */
 }
 
 h1,
@@ -176,6 +184,15 @@ html.js .reveal-item.is-visible {
   border-color: transparent;
 
   background: var(--accent);
+}
+
+/* Text panels — headings, intros, anything that would otherwise sit
+   straight on the staircase pattern. White rather than the grey used
+   behind cards, because this is the variant that exists purely so long
+   passages stay readable, and white is the highest contrast available
+   under --ink. */
+.section-box.is-plain {
+  background: var(--card-surface);
 }
 
 @media (max-width: 750px) {

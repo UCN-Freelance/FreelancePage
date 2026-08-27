@@ -132,10 +132,21 @@ const open = ref(false)
 .card-toggle {
   width: 100%;
 
+  /* Two lines of title at 20px/1.2 = 48px, plus the padding. Fixing the
+     header height here is what keeps every collapsed card the same size:
+     "Optimering & videreudvikling" wraps to two lines while "Webudvikling"
+     doesn't, and without this the cards in a row came out different
+     heights. Sized to the tallest, so nothing is ever clipped.
+
+     Doing it on the header rather than the card means an opened card
+     still grows to fit its own detail, instead of every card in the grid
+     stretching to match. */
+  min-height: 96px;
+
   padding: 24px 22px;
 
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
 
   gap: 14px;
@@ -313,6 +324,8 @@ const open = ref(false)
 
 @media (max-width: 750px) {
   .card-toggle {
+    min-height: 88px;
+
     padding: 20px;
   }
 

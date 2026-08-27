@@ -46,7 +46,9 @@ useStairReveal(destinationsEl, '.destination-card', {
   <main>
     <!-- HERO -->
     <section class="hero">
-      <div class="content-container">
+      <!-- .is-plain: an opaque white panel, so the heading and body copy
+           don't have to be read through the staircase pattern. -->
+      <div class="section-box is-plain hero-box">
         <h1>
           Vi bygger digitale
           <span>løsninger, der virker.</span>
@@ -123,17 +125,19 @@ main {
   color: var(--ink);
 }
 
-.content-container {
-  width: min(1240px, calc(100% - 48px));
-  margin: 0 auto;
-}
-
 /* =========================
    HERO
    ========================= */
 
 .hero {
-  padding: 96px 0 84px;
+  padding: 40px 0 20px;
+}
+
+/* Sizing, colour and radius come from .section-box.is-plain; the hero
+   only needs a little more breathing room than a grid panel. */
+.hero-box {
+  padding-top: 60px;
+  padding-bottom: 60px;
 }
 
 .hero h1 {
@@ -374,12 +378,13 @@ main {
 }
 
 @media (max-width: 700px) {
-  .content-container {
-    width: calc(100% - 36px);
+  .hero {
+    padding: 20px 0 12px;
   }
 
-  .hero {
-    padding: 62px 0 56px;
+  .hero-box {
+    padding-top: 36px;
+    padding-bottom: 36px;
   }
 
   .hero h1 {

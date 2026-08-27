@@ -138,7 +138,9 @@ onUnmounted(() => {
 
 <template>
   <section class="team-section">
-    <div class="team-container">
+    <!-- .is-plain (main.css): opaque, so the copy is not read through
+         the staircase pattern behind it. -->
+    <div class="section-box is-plain">
       <div class="section-header">
         <span class="section-kicker">Om os</span>
 
@@ -215,17 +217,11 @@ onUnmounted(() => {
 
 <style scoped>
 .team-section {
-  padding: 84px 0 0;
-}
-
-.team-container {
-  max-width: 1240px;
-  margin: 0 auto;
-  padding: 0 24px;
+  padding: 40px 0 0;
 }
 
 .section-header {
-  margin-bottom: 56px;
+  margin: 0;
 }
 
 .section-kicker {
@@ -292,6 +288,7 @@ onUnmounted(() => {
 /* Sizing, colour and radius all come from .section-box; this only adds
    what is specific to the roster. */
 .team-band {
+  margin-top: 8px;
   margin-bottom: 40px;
 }
 
@@ -451,15 +448,7 @@ onUnmounted(() => {
 
 @media (max-width: 750px) {
   .team-section {
-    padding: 56px 0 0;
-  }
-
-  .team-container {
-    padding: 0 18px;
-  }
-
-  .section-header {
-    margin-bottom: 40px;
+    padding: 20px 0 0;
   }
 
   .section-heading {

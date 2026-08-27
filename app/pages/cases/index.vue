@@ -15,7 +15,9 @@ useStairReveal(gridEl, '.case-card', {
 <template>
   <main class="cases-page">
     <section class="cases-hero">
-      <div class="cases-container">
+      <!-- .is-plain (main.css): opaque, so the copy is not read through
+           the staircase pattern behind it. -->
+      <div class="section-box is-plain hero-box">
         <h1>
           Den slags løsninger
           <span>vi bygger.</span>
@@ -76,10 +78,15 @@ useStairReveal(gridEl, '.case-card', {
    ========================= */
 
 .cases-hero {
-  padding: 84px 0 44px;
+  padding: 40px 0 20px;
 }
 
-.cases-hero h1 {
+.hero-box {
+  padding-top: 56px;
+  padding-bottom: 56px;
+}
+
+.hero-box h1 {
   margin: 0;
 
   max-width: 760px;
@@ -93,7 +100,7 @@ useStairReveal(gridEl, '.case-card', {
   letter-spacing: -0.03em;
 }
 
-.cases-hero h1 span {
+.hero-box h1 span {
   display: block;
 
   color: var(--accent);
@@ -155,10 +162,15 @@ useStairReveal(gridEl, '.case-card', {
   }
 
   .cases-hero {
-    padding: 56px 0 28px;
+    padding: 20px 0 12px;
   }
 
-  .cases-hero h1 {
+  .hero-box {
+    padding-top: 34px;
+    padding-bottom: 34px;
+  }
+
+  .hero-box h1 {
     font-size: clamp(40px, 12vw, 58px);
   }
 

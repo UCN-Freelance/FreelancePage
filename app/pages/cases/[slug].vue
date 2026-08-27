@@ -24,7 +24,9 @@ const others = computed(() =>
 <template>
   <main v-if="study" class="case-page">
     <section class="case-hero">
-      <div class="case-container">
+      <!-- .is-plain (main.css): opaque, so the copy is not read through
+           the staircase pattern behind it. -->
+      <div class="section-box is-plain hero-box">
         <NuxtLink to="/cases" class="back-link">
           <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <path
@@ -132,7 +134,7 @@ const others = computed(() =>
     </section>
 
     <section class="case-others">
-      <div class="case-container">
+      <div class="section-box is-plain">
         <h2>Andre eksempler</h2>
 
         <div class="others-grid">
@@ -192,7 +194,12 @@ const others = computed(() =>
    ========================= */
 
 .case-hero {
-  padding: 46px 0 44px;
+  padding: 40px 0 20px;
+}
+
+.hero-box {
+  padding-top: 40px;
+  padding-bottom: 40px;
 }
 
 .back-link {
@@ -243,7 +250,7 @@ const others = computed(() =>
   text-transform: uppercase;
 }
 
-.case-hero h1 {
+.hero-box h1 {
   max-width: 900px;
 
   margin: 0;
@@ -502,7 +509,7 @@ const others = computed(() =>
    ========================= */
 
 .case-others {
-  padding: 20px 0 56px;
+  padding: 8px 0 40px;
 }
 
 .case-others h2 {
@@ -620,10 +627,10 @@ const others = computed(() =>
   }
 
   .case-hero {
-    padding: 32px 0 28px;
+    padding: 20px 0 12px;
   }
 
-  .case-hero h1 {
+  .hero-box h1 {
     font-size: clamp(32px, 9vw, 44px);
   }
 

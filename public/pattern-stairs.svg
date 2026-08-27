@@ -1,0 +1,29 @@
+<!--
+  Page background: a staircase, for "Next Step".
+
+  A 64x64 tile carrying one staircase that runs corner to corner. Tiling
+  it produces continuous parallel staircases across the whole page,
+  because the pattern repeats along (64, minus 64) as well as (64, 0).
+
+  Three copies of the same path are drawn at x offsets of minus 64, 0 and
+  plus 64. Only the middle one is fully inside the tile; the other two
+  supply the pieces that would otherwise be missing along the tile's
+  edges, which is what makes the repeat seamless rather than seamed at
+  every boundary.
+
+  Transparent background on purpose: body paints the page colour behind
+  it, so that stays in main.css rather than being baked in here. The
+  stroke is the accent indigo #6366f1 at low opacity.
+
+  NOTE: no double hyphens anywhere in this comment. XML forbids them
+  inside comments, and an SVG that fails to parse is not simply ignored
+  by the browser, it fails to decode as an image entirely and the
+  background silently renders as nothing at all.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <g fill="none" stroke="#6366f1" stroke-opacity="0.3" stroke-width="1.25">
+    <path d="M-64 128H-32V96H0V64H32V32H64V0H96V-32H128V-64"/>
+    <path d="M-128 128H-96V96H-64V64H-32V32H0V0H32V-32H64V-64"/>
+    <path d="M0 128H32V96H64V64H96V32H128V0H160V-32H192V-64"/>
+  </g>
+</svg>
