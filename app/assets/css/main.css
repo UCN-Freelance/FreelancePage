@@ -8,8 +8,8 @@
    ========================================================= */
 
 :root {
-  --bg: #fafafa;
-  --bg-raised: #f1f5f9;
+  --bg: #f1f5f9;
+  --bg-raised: #e2e8f0;
   --ink: #1e293b;
   --ink-soft: #475569;
   --accent: #6366f1;
@@ -40,12 +40,14 @@
      /services and live on .services-grid over there.
      ======================================================= */
 
-  /* Canvas painted behind the cards, replacing --bg on those sections.
-     THIS is the knob that controls how much the cards stand out: the
-     card itself is already white and can't go lighter, so contrast has
-     to come from deepening what sits behind it. Lower = more contrast.
-     #f1f5f9 is subtle, #e8edf5 is clear, #e2e8f0 is strong. */
-  --card-canvas: #e8edf5;
+  /* Canvas painted behind the cards on the full-bleed section bands,
+     replacing --bg on those sections. THIS is the knob that controls how
+     much the cards stand out: the card itself is already white and can't
+     go lighter, so contrast has to come from deepening what sits behind
+     it. It also has to stay clearly darker than --bg (#f1f5f9), since
+     the bands read as bands only by being a shade down from the page.
+     #e8edf5 is subtle, #e2e8f0 is clear, #dbe3ec is strong. */
+  --card-canvas: #e2e8f0;
 
   /* The card itself, sitting on --card-canvas. */
   --card-surface: #ffffff;

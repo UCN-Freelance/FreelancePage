@@ -113,19 +113,11 @@ useStairReveal(gridEl, '.service-card', {
 </script>
 
 <template>
+  <!-- Full-bleed band: the darker canvas runs to both page edges, so the
+       grid reads as one clipped panel of the page rather than a floating
+       box with the page colour showing around it. -->
   <section class="services-grid-section">
     <div class="services-container">
-      <div class="section-header">
-        <span>
-          Hvad vi kan hjælpe med
-        </span>
-
-        <h2>
-          Fra frontend
-          <strong>til backend.</strong>
-        </h2>
-      </div>
-
       <div ref="gridEl" class="services-grid">
         <ServiceCard
           v-for="(service, index) in services"
@@ -142,9 +134,16 @@ useStairReveal(gridEl, '.service-card', {
 
 <style scoped>
 .services-grid-section {
-  padding: 10px 40px 110px;
+  /* No horizontal margin anywhere in the chain above this, so the
+     background reaches the viewport edge; the padding insets the content
+     without insetting the colour. */
+  width: 100%;
 
-  /* Deeper than --bg so the white cards have something to sit on. */
+  padding: 56px 40px 70px;
+
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+
   background: var(--card-canvas);
 }
 
@@ -154,64 +153,19 @@ useStairReveal(gridEl, '.service-card', {
   margin: 0 auto;
 }
 
-.section-header {
-  margin-bottom: 50px;
-}
-
-.section-header > span {
-  display: block;
-
-  margin-bottom: 16px;
-
-  color: var(--slate);
-
-  font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 500;
-
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.section-header h2 {
-  margin: 0;
-
-  color: var(--ink);
-
-  font-size: clamp(36px, 4.4vw, 56px);
-  font-weight: 700;
-
-  line-height: 1.02;
-  letter-spacing: -0.02em;
-}
-
-.section-header h2 strong {
-  display: block;
-
-  color: var(--slate);
-
-  font-weight: inherit;
-}
-
 .services-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
 
+  /* Cards open independently and therefore differ in height; start them
+     at the top of their row so an open card grows downward instead of
+     stretching its neighbours to match. */
+  align-items: start;
+
   gap: 20px;
 
-  /* =======================================================
-     Lift + scale are specific to this grid — the homepage
-     mosaic has flush 1px seams that scaling would tear open.
-     The shared knobs (--card-surface, --card-dim,
-     --card-hover-ms) are in :root in main.css. Override any
-     of them here to make /services differ from the homepage.
-     ======================================================= */
-
-  /* How much the hovered card grows. 1 = no growth. */
-  --card-hover-scale: 1.035;
-
   /* How far the hovered card lifts. Negative = upward. */
-  --card-hover-lift: -6px;
+  --card-hover-lift: -4px;
 }
 
 /* The reveal (useStairReveal) owns opacity + transform on its way in and
@@ -220,23 +174,19 @@ useStairReveal(gridEl, '.service-card', {
    entrance one. */
 .services-grid .service-card.is-visible {
   transition:
-    opacity var(--card-hover-ms) ease,
     transform var(--card-hover-ms) cubic-bezier(0.16, 1, 0.3, 1),
     box-shadow var(--card-hover-ms) ease,
     border-color var(--card-hover-ms) ease;
 }
 
-/* Hovering anywhere in the grid pushes every card back... */
-.services-grid:hover .service-card.is-visible {
-  opacity: var(--card-dim);
-}
-
-/* ...and the one actually under the cursor comes forward. */
+/* A plain lift, with no scale and no dimming of the neighbours: the cards
+   expand in place now, and both of those fought with reading one that is
+   open — scale blurred its text mid-transition, and the dim greyed out
+   the seven cards you were comparing it against. */
 .services-grid .service-card.is-visible:hover {
   z-index: 2;
 
-  opacity: 1;
-  transform: translateY(var(--card-hover-lift)) scale(var(--card-hover-scale));
+  transform: translateY(var(--card-hover-lift));
 }
 
 @media (max-width: 1050px) {
@@ -247,7 +197,7 @@ useStairReveal(gridEl, '.service-card', {
 
 @media (max-width: 560px) {
   .services-grid-section {
-    padding: 10px 18px 70px;
+    padding: 40px 18px 56px;
   }
 
   .services-grid {

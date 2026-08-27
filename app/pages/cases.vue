@@ -2,30 +2,62 @@
 import { ref } from 'vue'
 import { useStairReveal } from '~/composables/useStairReveal'
 
+// Placeholder portfolio. These are representative of the work described
+// on /services rather than real signed engagements — swap them for actual
+// projects as they land.
+//
+// No `image` is set on any of them, so every card falls back to the
+// accent panel in CaseCard. To give one a photo, drop the file into
+// public/cases/ and add `image: '/cases/<file>.jpg'` here plus
+// `:image="caseItem.image"` on the component below.
 const cases = [
   {
-    title: 'Case 1',
+    title: 'Bookingsystem til klinikkæde',
+    sector: 'Sundhed',
     description:
-      'En kort beskrivelse af projektet, hvad kunden havde brug for, og hvilken løsning vi udviklede.',
-    image: '/cases/case1.jpg',
+      'Fælles bookingplatform for otte klinikker, der samlede kalendere, journalhenvisninger og SMS-påmindelser ét sted. Aflyste tider frigives automatisk til ventelisten.',
+    result: '38% færre udeblivelser',
+    stack: ['Nuxt', 'PostgreSQL', 'Twilio'],
   },
   {
-    title: 'Case 2',
+    title: 'Lagerstyring for grossist',
+    sector: 'Engroshandel',
     description:
-      'En kort beskrivelse af projektet, løsningen og den værdi systemet skabte for kunden.',
-    image: '/cases/case2.jpg',
+      'Internt system til varemodtagelse, lokationer og plukning, bygget oven på et eksisterende ERP. Scannere på lageret skriver direkte ind i samme datamodel som kontoret arbejder i.',
+    result: 'Optælling fra 3 dage til 4 timer',
+    stack: ['Vue', 'Node', 'REST API'],
   },
   {
-    title: 'Case 3',
+    title: 'Prisovervågning og scraping',
+    sector: 'E-commerce',
     description:
-      'Et digitalt projekt udviklet med fokus på brugervenlighed, performance og en enkel arbejdsgang.',
-    image: '/cases/case3.jpg',
+      'Automatiseret indsamling af konkurrentpriser på tværs af 40 webshops, normaliseret til én varekatalogsnøgle og leveret som dagligt prisoverblik med afvigelsesalarmer.',
+    result: '40 kilder, opdateret dagligt',
+    stack: ['Python', 'Playwright', 'Scheduled jobs'],
   },
   {
-    title: 'Case 4',
+    title: 'Kundeportal til rådgivningshus',
+    sector: 'Rådgivning',
     description:
-      'En skræddersyet løsning bygget til at automatisere og forbedre en eksisterende proces.',
-    image: '/cases/case4.jpg',
+      'Selvbetjeningsportal hvor kunder følger deres sager, henter dokumenter og godkender oplæg digitalt — i stedet for at det hele gik gennem vedhæftede filer i mails.',
+    result: 'Halveret manuel sagsopfølgning',
+    stack: ['Nuxt', 'Auth', 'Dokumenthåndtering'],
+  },
+  {
+    title: 'Vagtplanlægning til restauration',
+    sector: 'Restauration',
+    description:
+      'Planlægningsværktøj der tager højde for åbningstider, kompetencer og lønbudget, og som lader personalet bytte vagter indbyrdes uden at lederen skal ind over hver gang.',
+    result: 'Vagtplan lagt på under en time',
+    stack: ['Vue', 'PostgreSQL', 'Rollestyring'],
+  },
+  {
+    title: 'Integration mellem webshop og økonomi',
+    sector: 'Detail',
+    description:
+      'Toevejsintegration mellem webshop, lager og økonomisystem, så ordrer, kreditnotaer og lagertal holder sig synkrone uden manuel indtastning i to systemer.',
+    result: 'Ingen manuel indtastning',
+    stack: ['Webhooks', 'REST API', 'Data sync'],
   },
 ]
 
@@ -40,25 +72,45 @@ useStairReveal(gridEl, '.case-card', {
 
 <template>
   <main class="cases-page">
-    <div class="cases-container">
-      <span class="section-kicker">Cases</span>
+    <section class="cases-hero">
+      <div class="cases-container">
+        <h1>
+          Projekter vi har
+          <span>bygget for kunder.</span>
+        </h1>
 
-      <h1>
-        Projekter vi har
-        <span>bygget for kunder.</span>
-      </h1>
-
-      <div ref="gridEl" class="cases-grid">
-        <CaseCard
-          v-for="(caseItem, index) in cases"
-          :key="caseItem.title"
-          :title="caseItem.title"
-          :description="caseItem.description"
-          :image="caseItem.image"
-          :accent="accentColors[index % accentColors.length]"
-        />
+        <p class="hero-description">
+          Et udsnit af de løsninger, vi har leveret — hvad kunden stod med,
+          hvad vi byggede, og hvad det flyttede.
+        </p>
       </div>
-    </div>
+    </section>
+
+    <!-- Full-bleed band, same treatment as the services grid. -->
+    <section class="cases-band">
+      <div class="cases-container">
+        <div ref="gridEl" class="cases-grid">
+          <CaseCard
+            v-for="(caseItem, index) in cases"
+            :key="caseItem.title"
+            :title="caseItem.title"
+            :sector="caseItem.sector"
+            :description="caseItem.description"
+            :result="caseItem.result"
+            :stack="caseItem.stack"
+            :accent="accentColors[index % accentColors.length]"
+          />
+        </div>
+      </div>
+    </section>
+
+    <ContactCta
+      label="Har I et projekt?"
+      heading="Jeres projekt kunne"
+      heading-accent="stå her næste gang."
+      body="Fortæl os kort, hvad I gerne vil have bygget, så vender vi tilbage med et bud på, hvordan vi griber det an."
+      cta="Kontakt os"
+    />
   </main>
 </template>
 
@@ -66,9 +118,7 @@ useStairReveal(gridEl, '.case-card', {
 .cases-page {
   min-height: 100vh;
 
-  padding: 64px 40px 120px;
-
-  background: var(--bg);
+  color: var(--ink);
 }
 
 .cases-container {
@@ -77,44 +127,63 @@ useStairReveal(gridEl, '.case-card', {
   margin: 0 auto;
 }
 
-.section-kicker {
-  display: block;
+/* =========================
+   HERO
+   ========================= */
 
-  margin-bottom: 22px;
-
-  color: var(--slate);
-
-  font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 500;
-
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+.cases-hero {
+  padding: 84px 40px 70px;
 }
 
-h1 {
-  margin: 0 0 60px;
+.cases-hero h1 {
+  margin: 0;
 
-  max-width: 700px;
+  max-width: 760px;
 
   color: var(--ink);
 
-  font-size: clamp(36px, 4.4vw, 56px);
+  font-size: clamp(46px, 6vw, 76px);
   font-weight: 700;
 
-  line-height: 1.04;
-  letter-spacing: -0.02em;
+  line-height: 0.98;
+  letter-spacing: -0.03em;
 }
 
-h1 span {
+.cases-hero h1 span {
   display: block;
 
   color: var(--accent);
 }
 
+.hero-description {
+  max-width: 620px;
+
+  margin: 28px 0 0;
+
+  color: var(--ink-soft);
+
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+/* =========================
+   BAND
+   ========================= */
+
+.cases-band {
+  width: 100%;
+
+  padding: 56px 40px 70px;
+
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+
+  background: var(--card-canvas);
+}
+
 .cases-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 
   gap: 22px;
 }
@@ -136,21 +205,32 @@ h1 span {
     border-color 240ms ease;
 }
 
+@media (max-width: 1050px) {
+  .cases-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 @media (max-width: 750px) {
-  .cases-page {
-    padding: 50px 18px 90px;
+  .cases-hero {
+    padding: 56px 18px 44px;
   }
 
-  h1 {
-    margin-bottom: 44px;
+  .cases-hero h1 {
+    font-size: clamp(40px, 12vw, 58px);
+  }
 
-    font-size: clamp(32px, 10vw, 44px);
+  .hero-description {
+    font-size: 15px;
+  }
+
+  .cases-band {
+    padding: 40px 18px 56px;
   }
 
   .cases-grid {
-    grid-template-columns: 1fr;
-
-    gap: 18px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
   }
 }
 </style>

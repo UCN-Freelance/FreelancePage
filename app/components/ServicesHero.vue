@@ -2,8 +2,6 @@
   <section class="services-hero">
     <div class="hero-container">
       <div class="hero-copy">
-        <span class="hero-label">Ydelser</span>
-
         <h1>
           Software bygget
           <span>omkring jeres behov.</span>
@@ -15,51 +13,22 @@
           der løser konkrete problemer og passer ind i den måde, I arbejder på.
         </p>
       </div>
-
-      <div class="hero-side">
-        <span class="side-number">Discipliner</span>
-        <p>
-          Se listen nedenfor for at finde det, der matcher jeres udfordring —
-          eller skriv til os, hvis I er i tvivl om, hvor I skal starte.
-        </p>
-      </div>
     </div>
   </section>
 </template>
 
 <style scoped>
 .services-hero {
-  padding: 64px 24px 90px;
+  padding: 84px 24px 70px;
 }
 
 .hero-container {
   max-width: 1240px;
   margin: 0 auto;
-
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-
-  gap: 80px;
 }
 
 .hero-copy {
   max-width: 900px;
-}
-
-.hero-label {
-  display: block;
-
-  margin-bottom: 22px;
-
-  color: var(--slate);
-
-  font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 500;
-
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
 }
 
 .hero-copy h1 {
@@ -91,44 +60,9 @@
   line-height: 1.7;
 }
 
-.hero-side {
-  width: 220px;
-
-  flex-shrink: 0;
-
-  padding-top: 18px;
-
-  border-top: 1px solid var(--line-strong);
-}
-
-.side-number {
-  display: block;
-
-  margin-bottom: 12px;
-
-  color: var(--accent);
-
-  font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 500;
-}
-
-.hero-side p {
-  margin: 0;
-
-  color: var(--slate);
-
-  font-size: 14px;
-  line-height: 1.65;
-}
-
 @media (max-width: 850px) {
   .services-hero {
-    padding: 50px 18px 60px;
-  }
-
-  .hero-container {
-    display: block;
+    padding: 56px 18px 48px;
   }
 
   .hero-copy h1 {
@@ -137,12 +71,6 @@
 
   .hero-copy p {
     font-size: 15px;
-  }
-
-  .hero-side {
-    width: 100%;
-
-    margin-top: 40px;
   }
 }
 </style>
