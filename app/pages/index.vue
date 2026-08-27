@@ -17,9 +17,12 @@ const destinations = [
   {
     to: '/cases',
     label: 'Cases',
-    title: 'Projekter vi har lavet',
+    title: 'Den slags vi bygger',
+    // Deliberately not "projekter vi har bygget for kunder" — the cases
+    // are worked examples, not delivered work, and each one says so on
+    // its own page. The landing page shouldn't claim otherwise.
     description:
-      'Et udvalg af løsninger, vi har bygget for kunder, med teknologien og resultatet bag hver enkelt.',
+      'Gennemgående eksempler på løsninger, vi kan bygge, med teknologien og resultatet bag hver enkelt.',
     cta: 'Se cases',
   },
   {
@@ -79,7 +82,7 @@ useStairReveal(destinationsEl, '.destination-card', {
 
     <!-- WHERE TO GO NEXT — the three other pages, one card each -->
     <section class="destinations-section">
-      <div class="content-container">
+      <div class="section-box">
         <div ref="destinationsEl" class="destinations-grid">
           <NuxtLink
             v-for="destination in destinations"
@@ -250,17 +253,14 @@ main {
 /* =========================
    DESTINATIONS
 
-   Full-bleed band a shade below --bg, so the three cards read as one
-   clipped panel rather than as loose boxes floating on the page.
+   The three cards sit in the shared .section-box panel (main.css) — a
+   shade below --bg, inset from both page edges and rounded, so it reads
+   as a box holding them.
    ========================= */
 
+/* The panel itself is .section-box in main.css; this only spaces it. */
 .destinations-section {
-  padding: 70px 0 78px;
-
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-
-  background: var(--card-canvas);
+  padding: 8px 0 40px;
 }
 
 .destinations-grid {
@@ -400,7 +400,7 @@ main {
   }
 
   .destinations-section {
-    padding: 46px 0 52px;
+    padding: 4px 0 28px;
   }
 
   .destinations-grid {

@@ -156,8 +156,8 @@ onUnmounted(() => {
       </div>
     </div>
 
-    <!-- Full-bleed band, same treatment as the services and cases grids. -->
-    <div class="team-band">
+    <!-- Same .section-box panel (main.css) the other grids sit in. -->
+    <div class="section-box team-band">
       <!-- Opens on the mark, then dissolves. Height is animated to zero so
            the roster below rises into the space rather than the page
            jumping when it goes. -->
@@ -177,7 +177,10 @@ onUnmounted(() => {
         >
       </div>
 
-      <div class="team-container">
+      <!-- No inner .team-container here: .section-box already constrains
+           the width and adds the padding, so nesting one would inset the
+           roster a second time. -->
+      <div>
         <div
           class="team-grid"
           :class="{ 'js-enhanced': showLogo, 'is-built': gridBuilt }"
@@ -286,15 +289,10 @@ onUnmounted(() => {
    BAND
    ========================= */
 
+/* Sizing, colour and radius all come from .section-box; this only adds
+   what is specific to the roster. */
 .team-band {
-  width: 100%;
-
-  padding: 60px 0 74px;
-
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-
-  background: var(--card-canvas);
+  margin-bottom: 40px;
 }
 
 /* =========================
@@ -480,7 +478,7 @@ onUnmounted(() => {
   }
 
   .team-band {
-    padding: 40px 0 56px;
+    margin-bottom: 28px;
   }
 
   .team-stage {

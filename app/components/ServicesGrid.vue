@@ -113,11 +113,11 @@ useStairReveal(gridEl, '.service-card', {
 </script>
 
 <template>
-  <!-- Full-bleed band: the darker canvas runs to both page edges, so the
-       grid reads as one clipped panel of the page rather than a floating
-       box with the page colour showing around it. -->
+  <!-- .section-box (main.css) is the shared panel every grid on the site
+       sits in: inset from both page edges and rounded, so it reads as a
+       box holding the cards. -->
   <section class="services-grid-section">
-    <div class="services-container">
+    <div class="section-box">
       <div ref="gridEl" class="services-grid">
         <ServiceCard
           v-for="(service, index) in services"
@@ -134,23 +134,9 @@ useStairReveal(gridEl, '.service-card', {
 
 <style scoped>
 .services-grid-section {
-  /* No horizontal margin anywhere in the chain above this, so the
-     background reaches the viewport edge; the padding insets the content
-     without insetting the colour. */
-  width: 100%;
-
-  padding: 56px 40px 70px;
-
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-
-  background: var(--card-canvas);
-}
-
-.services-container {
-  max-width: 1360px;
-
-  margin: 0 auto;
+  /* The panel itself is .section-box; this only spaces it from the hero
+     above and the contact box below. */
+  padding: 8px 0 40px;
 }
 
 .services-grid {
@@ -197,7 +183,7 @@ useStairReveal(gridEl, '.service-card', {
 
 @media (max-width: 560px) {
   .services-grid-section {
-    padding: 40px 18px 56px;
+    padding: 4px 0 28px;
   }
 
   .services-grid {

@@ -7,6 +7,7 @@ withDefaults(
     sector: string
     description: string
     result: string
+    to: string
     stack: string[]
     // Optional: drop a photo into public/cases/ and pass its path. Until
     // one exists the accent panel below stands in, so nothing requests
@@ -28,7 +29,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <article class="case-card" :style="{ '--card-accent': accent }">
+  <NuxtLink class="case-card" :to="to" :style="{ '--card-accent': accent }">
     <div class="case-image-wrapper">
       <img
         v-if="image && !imageFailed"
@@ -71,14 +72,33 @@ onMounted(() => {
       <div class="case-stack">
         <span v-for="tech in stack" :key="tech">{{ tech }}</span>
       </div>
+
+      <span class="case-more">
+        Læs mere
+
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path
+            d="M5 10h10M11 6l4 4-4 4"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </span>
     </div>
-  </article>
+  </NuxtLink>
 </template>
 
 <style scoped>
+/* The whole card is the link to its detail page, so the target is the
+   card rather than a caption inside it. */
 .case-card {
   display: flex;
   flex-direction: column;
+
+  color: inherit;
+  text-decoration: none;
 
   overflow: hidden;
 
@@ -296,6 +316,31 @@ onMounted(() => {
 
 .case-card:hover .case-stack span {
   border-color: var(--card-accent);
+}
+
+.case-more {
+  margin-top: 16px;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: 8px;
+
+  color: var(--card-accent);
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.case-more svg {
+  width: 16px;
+  height: 16px;
+
+  transition: transform 180ms ease;
+}
+
+.case-card:hover .case-more svg {
+  transform: translateX(4px);
 }
 
 @media (max-width: 600px) {

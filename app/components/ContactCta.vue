@@ -28,7 +28,7 @@ withDefaults(
 
 <template>
   <section class="contact-cta">
-    <div class="cta-container">
+    <div class="section-box is-accent cta-container">
       <div class="cta-copy">
         <span class="cta-label">{{ label }}</span>
 
@@ -58,19 +58,15 @@ withDefaults(
 </template>
 
 <style scoped>
-/* Full-bleed, like the other section bands — the colour runs to both
-   page edges instead of sitting in a rounded card with margin around it. */
+/* The panel is .section-box.is-accent (main.css) — the same inset,
+   rounded box the grids use, filled with the accent instead of the grey.
+   It stays in step with them rather than being the one thing still
+   bleeding to the page edges. */
 .contact-cta {
-  padding: 78px 24px 84px;
-
-  background: var(--accent);
+  padding: 8px 0 56px;
 }
 
 .cta-container {
-  max-width: 1240px;
-
-  margin: 0 auto;
-
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
@@ -183,7 +179,7 @@ withDefaults(
 
 @media (max-width: 850px) {
   .contact-cta {
-    padding: 56px 18px 60px;
+    padding: 4px 0 32px;
   }
 
   .cta-container {
