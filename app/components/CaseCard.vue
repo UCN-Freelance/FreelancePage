@@ -78,18 +78,12 @@ onMounted(() => {
     border-color 260ms ease;
 }
 
-/* The lift + tilt live on .cases-grid in cases.vue — the reveal system
-   outranks a plain .case-card:hover on transform, so they have to be
-   written from the grid to take effect. */
+/* The lift lives on .cases-grid in cases.vue — the reveal system outranks
+   a plain .case-card:hover on transform, so it has to be written from the
+   grid to take effect. */
 .case-card:hover {
   border-color: var(--card-accent);
-
-  box-shadow:
-    0 18px 40px -20px rgba(0, 0, 0, 0.8),
-    0 0 26px -6px rgba(210, 255, 0, 0.3);
-  box-shadow:
-    0 18px 40px -20px rgba(0, 0, 0, 0.8),
-    0 0 26px -6px color-mix(in srgb, var(--card-accent) 34%, transparent);
+  box-shadow: 0 18px 34px -18px rgba(15, 23, 42, 0.22);
 }
 
 .case-image-wrapper {

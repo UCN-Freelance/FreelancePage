@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useStairReveal } from '~/composables/useStairReveal'
-import { useCardTilt } from '~/composables/useCardTilt'
 
 const cases = [
   {
@@ -30,14 +29,13 @@ const cases = [
   },
 ]
 
-const accentColors = ['#d2ff00', '#b2c73a', '#ff6b00', '#8fa62e']
+const accentColors = ['#6366f1', '#4f46e5', '#4338ca', '#3730a3']
 
 const gridEl = ref<HTMLElement | null>(null)
 
 useStairReveal(gridEl, '.case-card', {
   direction: (i) => (i % 2 === 0 ? 'left' : 'right'),
 })
-useCardTilt(gridEl, '.case-card')
 </script>
 
 <template>
@@ -119,23 +117,16 @@ h1 span {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 
   gap: 22px;
-
-  /* Shared vanishing point for the per-card tilt. */
-  perspective: 1200px;
 }
 
 /* Written from the grid, not from .case-card:hover in CaseCard.vue: the
    reveal's `html.js .reveal-item.is-visible { transform: none }` scores
    (0,3,1) and outranks a scoped .case-card:hover at (0,3,0), so the lift
-   there never actually applied. From here it wins at (0,5,0).
-   --tilt-x / --tilt-y come from useCardTilt and default to 0deg. */
+   there never actually applied. From here it wins at (0,5,0). */
 .cases-grid .case-card.is-visible:hover {
   z-index: 2;
 
-  transform:
-    translateY(-6px)
-    rotateX(var(--tilt-x, 0deg))
-    rotateY(var(--tilt-y, 0deg));
+  transform: translateY(-6px);
 }
 
 .cases-grid .case-card.is-visible {

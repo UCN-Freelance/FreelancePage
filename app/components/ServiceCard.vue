@@ -54,12 +54,10 @@ withDefaults(
   background: var(--card-surface, #ffffff);
 
   /* Tight contact edge plus a soft ambient spread, so the card reads as
-     lifted off --card-canvas rather than painted onto it. Much deeper
-     than the light-theme values these replaced — a 6%-black shadow is
-     invisible against an olive-black canvas. */
+     lifted off --card-canvas rather than painted onto it. */
   box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.5),
-    0 8px 20px -10px rgba(0, 0, 0, 0.65);
+    0 1px 2px rgba(15, 23, 42, 0.06),
+    0 6px 16px -8px rgba(15, 23, 42, 0.14);
 
   transition:
     opacity var(--card-hover-ms, 240ms) ease,
@@ -88,17 +86,7 @@ withDefaults(
    be written from the grid to take effect. */
 .service-card:hover {
   border-color: var(--card-accent);
-
-  /* On dark, a darker shadow says nothing — the card has to emit light
-     instead. Plain-rgba first so browsers without color-mix still get a
-     lift; the second declaration tints the halo with the card's own
-     accent and simply overrides it where color-mix is supported. */
-  box-shadow:
-    0 18px 40px -20px rgba(0, 0, 0, 0.8),
-    0 0 26px -6px rgba(210, 255, 0, 0.3);
-  box-shadow:
-    0 18px 40px -20px rgba(0, 0, 0, 0.8),
-    0 0 26px -6px color-mix(in srgb, var(--card-accent) 34%, transparent);
+  box-shadow: 0 18px 34px -18px rgba(15, 23, 42, 0.26);
 }
 
 .service-card:hover .accent-bar {

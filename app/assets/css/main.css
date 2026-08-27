@@ -1,33 +1,24 @@
 /* =========================================================
-   Design tokens — Race Night
-   Olive-black canvas under an acid-lime accent, with warm
-   orange held back for secondary emphasis and off-white text
-   that reads warm rather than clinical. Motorsport-adjacent:
-   the light is the accent, everything else recedes.
-
-   Every text pairing below clears WCAG AA on its own surface;
-   the muted greys are the tight ones, so check before moving
-   them (--slate is the floor at 8.18:1 on a card).
+   Design tokens — The Modern Innovator
+   Alabaster + charcoal slate structure with a royal amethyst
+   accent: cutting-edge but safe, the palette of cloud/AI-grade
+   consulting rather than security tooling or hacker culture.
+   Sage green and warm amber are reserved for success states and
+   metric callouts, applied sparingly rather than as a base color.
    ========================================================= */
 
 :root {
-  --bg: #101400;
-  --bg-raised: #191e0e;
-  --ink: #f4f4ed;
-  --ink-soft: #c8cbbd;
-  --accent: #d2ff00;
-  --accent-ink: #101400;
-  --slate: #b9bbad;
-  --success: #b2c73a;
-  --warning: #ff6b00;
-
-  /* Hairlines are light-on-dark now, so they lift rather than
-     shade — inverting these is what keeps edges visible. */
-  --line: rgba(244, 244, 237, 0.12);
-  --line-strong: rgba(244, 244, 237, 0.22);
-
-  /* Secondary accent, used sparingly against the lime. */
-  --accent-warm: #ff6b00;
+  --bg: #fafafa;
+  --bg-raised: #f1f5f9;
+  --ink: #1e293b;
+  --ink-soft: #475569;
+  --accent: #6366f1;
+  --accent-ink: #ffffff;
+  --slate: #556376;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --line: rgba(30, 41, 59, 0.1);
+  --line-strong: rgba(30, 41, 59, 0.18);
 
   --font-display: 'Bricolage Grotesque', 'Inter', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
@@ -38,11 +29,9 @@
   --radius-lg: 20px;
 
   /* Fixed chip colors for solid buttons/badges — always this pairing,
-     regardless of what section they sit in. The lime chip carrying
-     dark text is the loudest thing on the page, which is the point:
-     it marks the one action worth taking in any given section. */
-  --chip-bg: #d2ff00;
-  --chip-text: #101400;
+     regardless of what section they sit in. */
+  --chip-bg: #1e293b;
+  --chip-text: #fafafa;
 
   /* =======================================================
      SERVICE CARD TUNING — shared by both service grids: the
@@ -52,15 +41,14 @@
      ======================================================= */
 
   /* Canvas painted behind the cards, replacing --bg on those sections.
-     On the dark palette the relationship flips: the canvas sinks below
-     --bg and the card rises above it, so contrast is available in both
-     directions instead of being capped at white. The pair below sits at
-     9.7 dL* apart — raise --card-surface toward #262d18 for more, drop
-     --card-canvas toward #060800 to deepen the well instead. */
-  --card-canvas: #0b0e00;
+     THIS is the knob that controls how much the cards stand out: the
+     card itself is already white and can't go lighter, so contrast has
+     to come from deepening what sits behind it. Lower = more contrast.
+     #f1f5f9 is subtle, #e8edf5 is clear, #e2e8f0 is strong. */
+  --card-canvas: #e8edf5;
 
   /* The card itself, sitting on --card-canvas. */
-  --card-surface: #1e2413;
+  --card-surface: #ffffff;
 
   /* Opacity of the cards you are NOT hovering. 1 = no dimming at all,
      lower = the hovered card stands out more. */
@@ -69,7 +57,7 @@
   /* Speed of the dim (and, on /services, the lift + grow). */
   --card-hover-ms: 240ms;
 
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 * {
@@ -84,11 +72,6 @@ body {
   font-size: 16px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-
-  /* This IS the base color everywhere (not just a fallback) — the
-     ambient 3D layer (AmbientScene, mounted once in app.vue) still
-     sits behind everything and shows through hero sections that don't
-     paint their own background. */
 }
 
 h1,
