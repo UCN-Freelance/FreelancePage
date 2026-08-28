@@ -1,33 +1,24 @@
 /* =========================================================
-   Design tokens — Race Night
-   Olive-black canvas under an acid-lime accent, with warm
-   orange held back for secondary emphasis and off-white text
-   that reads warm rather than clinical. Motorsport-adjacent:
-   the light is the accent, everything else recedes.
-
-   Every text pairing below clears WCAG AA on its own surface;
-   the muted greys are the tight ones, so check before moving
-   them (--slate is the floor at 8.18:1 on a card).
+   Design tokens — The Modern Innovator
+   Alabaster + charcoal slate structure with a royal amethyst
+   accent: cutting-edge but safe, the palette of cloud/AI-grade
+   consulting rather than security tooling or hacker culture.
+   Sage green and warm amber are reserved for success states and
+   metric callouts, applied sparingly rather than as a base color.
    ========================================================= */
 
 :root {
-  --bg: #101400;
-  --bg-raised: #191e0e;
-  --ink: #f4f4ed;
-  --ink-soft: #c8cbbd;
-  --accent: #d2ff00;
-  --accent-ink: #101400;
-  --slate: #b9bbad;
-  --success: #b2c73a;
-  --warning: #ff6b00;
-
-  /* Hairlines are light-on-dark now, so they lift rather than
-     shade — inverting these is what keeps edges visible. */
-  --line: rgba(244, 244, 237, 0.12);
-  --line-strong: rgba(244, 244, 237, 0.22);
-
-  /* Secondary accent, used sparingly against the lime. */
-  --accent-warm: #ff6b00;
+  --bg: #f1f5f9;
+  --bg-raised: #e2e8f0;
+  --ink: #1e293b;
+  --ink-soft: #475569;
+  --accent: #6366f1;
+  --accent-ink: #ffffff;
+  --slate: #556376;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --line: rgba(30, 41, 59, 0.1);
+  --line-strong: rgba(30, 41, 59, 0.18);
 
   --font-display: 'Bricolage Grotesque', 'Inter', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
@@ -38,11 +29,9 @@
   --radius-lg: 20px;
 
   /* Fixed chip colors for solid buttons/badges — always this pairing,
-     regardless of what section they sit in. The lime chip carrying
-     dark text is the loudest thing on the page, which is the point:
-     it marks the one action worth taking in any given section. */
-  --chip-bg: #d2ff00;
-  --chip-text: #101400;
+     regardless of what section they sit in. */
+  --chip-bg: #1e293b;
+  --chip-text: #fafafa;
 
   /* =======================================================
      SERVICE CARD TUNING — shared by both service grids: the
@@ -51,16 +40,17 @@
      /services and live on .services-grid over there.
      ======================================================= */
 
-  /* Canvas painted behind the cards, replacing --bg on those sections.
-     On the dark palette the relationship flips: the canvas sinks below
-     --bg and the card rises above it, so contrast is available in both
-     directions instead of being capped at white. The pair below sits at
-     9.7 dL* apart — raise --card-surface toward #262d18 for more, drop
-     --card-canvas toward #060800 to deepen the well instead. */
-  --card-canvas: #0b0e00;
+  /* Canvas painted behind the cards on the full-bleed section bands,
+     replacing --bg on those sections. THIS is the knob that controls how
+     much the cards stand out: the card itself is already white and can't
+     go lighter, so contrast has to come from deepening what sits behind
+     it. It also has to stay clearly darker than --bg (#f1f5f9), since
+     the bands read as bands only by being a shade down from the page.
+     #e8edf5 is subtle, #e2e8f0 is clear, #dbe3ec is strong. */
+  --card-canvas: #e2e8f0;
 
   /* The card itself, sitting on --card-canvas. */
-  --card-surface: #1e2413;
+  --card-surface: #ffffff;
 
   /* Opacity of the cards you are NOT hovering. 1 = no dimming at all,
      lower = the hovered card stands out more. */
@@ -69,7 +59,7 @@
   /* Speed of the dim (and, on /services, the lift + grow). */
   --card-hover-ms: 240ms;
 
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 * {
@@ -78,17 +68,25 @@
 
 body {
   margin: 0;
-  background: var(--bg);
+
+  /* The staircase — "Next Step" — tiled across every page, replacing the
+     WebGL scene that used to sit behind the content. The SVG is
+     transparent, so --bg is what's actually being tinted here; the
+     pattern only draws the lines over it.
+
+     Because this makes the page surface busy, nothing should sit
+     directly on it: every block of text belongs in a .section-box
+     (or .section-box.is-plain), which is opaque and covers the
+     pattern where it would otherwise run under the words. */
+  background-color: var(--bg);
+  background-image: url('/pattern-stairs.svg');
+  background-repeat: repeat;
+
   color: var(--ink);
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-
-  /* This IS the base color everywhere (not just a fallback) — the
-     ambient 3D layer (AmbientScene, mounted once in app.vue) still
-     sits behind everything and shows through hero sections that don't
-     paint their own background. */
 }
 
 h1,
@@ -117,35 +115,6 @@ img {
   outline-offset: 3px;
 }
 
-/* =========================================================
-   Scroll reveals — items enter from a direction, not just up.
-   Default is a rise from below; add .reveal-left / .reveal-right
-   on top of .reveal-item to bring a piece in from that side
-   instead. useStairReveal() assigns these per item.
-   ========================================================= */
-
-html.js .reveal-item {
-  opacity: 0;
-  transform: translateY(28px);
-
-  transition:
-    opacity 560ms cubic-bezier(0.16, 1, 0.3, 1),
-    transform 560ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-html.js .reveal-item.reveal-left {
-  transform: translateX(-40px);
-}
-
-html.js .reveal-item.reveal-right {
-  transform: translateX(40px);
-}
-
-html.js .reveal-item.is-visible {
-  opacity: 1;
-  transform: none;
-}
-
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -154,5 +123,55 @@ html.js .reveal-item.is-visible {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* =========================================================
+   Section box — the panel a grid of cards sits in.
+
+   Global rather than per-component so every grid on the site gets
+   exactly the same container: inset from both page edges, rounded, and
+   a shade below --bg. Running these to the viewport edge instead made
+   the page read as separate slides butted together; keeping the panel
+   short of the edge is what makes it read as a box holding cards.
+   ========================================================= */
+
+.section-box {
+  width: min(1360px, calc(100% - 56px));
+
+  margin: 0 auto;
+  padding: 44px 40px 48px;
+
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+
+  background: var(--card-canvas);
+}
+
+/* The contact band. Same box, filled with the accent instead — it stays
+   in step with the grids rather than being the one thing on the page
+   still bleeding to the edges. */
+.section-box.is-accent {
+  border-color: transparent;
+
+  background: var(--accent);
+}
+
+/* Text panels — headings, intros, anything that would otherwise sit
+   straight on the staircase pattern. White rather than the grey used
+   behind cards, because this is the variant that exists purely so long
+   passages stay readable, and white is the highest contrast available
+   under --ink. */
+.section-box.is-plain {
+  background: var(--card-surface);
+}
+
+@media (max-width: 750px) {
+  .section-box {
+    width: calc(100% - 32px);
+
+    padding: 28px 20px 32px;
+
+    border-radius: var(--radius-md);
   }
 }

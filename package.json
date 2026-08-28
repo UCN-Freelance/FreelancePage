@@ -1,5 +1,5 @@
 {
-  "name": "min-hjemmeside",
+  "name": "next-step-freelance",
   "type": "module",
   "private": true,
   "scripts": {
@@ -10,10 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@tresjs/nuxt": "^5.6.3",
-    "gsap": "^3.15.0",
     "nuxt": "^4.5.2",
-    "three": "^0.185.1",
     "vue": "^3.5.41",
     "vue-router": "^5.2.0"
   }

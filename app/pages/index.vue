@@ -1,257 +1,114 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useStairReveal } from '~/composables/useStairReveal'
 
-const services = [
+// The landing page's whole job is to point at the other three pages, so
+// the sections below are a directory rather than a pitch: one line each,
+// then a link. Anything that wants more room belongs on its own page.
+const destinations = [
   {
-    title: 'Webudvikling',
+    to: '/services',
+    label: 'Ydelser',
+    title: 'Det vi bygger',
     description:
-      'Moderne hjemmesider og webapplikationer bygget med fokus på performance, brugervenlighed og et stærkt visuelt udtryk.',
+      'Web, apps, automatisering, integrationer og backend — otte discipliner, samlet ét sted.',
+    cta: 'Se ydelser',
   },
   {
-    title: 'Softwareløsninger',
+    to: '/cases',
+    label: 'Cases',
+    title: 'Den slags vi bygger',
+    // Deliberately not "projekter vi har bygget for kunder" — the cases
+    // are worked examples, not delivered work, and each one says so on
+    // its own page. The landing page shouldn't claim otherwise.
     description:
-      'Skræddersyede digitale løsninger, der automatiserer arbejdsgange og løser konkrete forretningsmæssige behov.',
+      'Gennemgående eksempler på løsninger, vi kan bygge, med teknologien og resultatet bag hver enkelt.',
+    cta: 'Se cases',
   },
   {
-    title: 'UI / UX',
+    to: '/about',
+    label: 'Om os',
+    title: 'Holdet bag',
     description:
-      'Intuitive og moderne interfaces, hvor funktionalitet og design arbejder sammen fra første klik.',
+      'Syv udviklere fra UCN. Du arbejder direkte sammen med dem, der bygger din løsning.',
+    cta: 'Mød teamet',
   },
 ]
-
-const principles = [
-  'Direkte dialog med udviklerne',
-  'Fleksibelt samarbejde',
-  'Moderne teknologier',
-  'Fokus på reel forretningsværdi',
-]
-
-const crew = [
-  'Omid',
-  'Mozamel',
-  'Oliver',
-  'Patrick',
-  'Frederik',
-  'Peter',
-  'Magnus',
-]
-
-const servicesGridEl = ref<HTMLElement | null>(null)
-const principlesListEl = ref<HTMLElement | null>(null)
-
-useStairReveal(servicesGridEl, '.service-card', {
-  direction: (i) => (i === 0 ? 'left' : i === 2 ? 'right' : 'up'),
-})
-useStairReveal(principlesListEl, '.principle', { direction: 'right' })
 </script>
 
 <template>
   <main>
     <!-- HERO -->
     <section class="hero">
-      <div class="hero-container">
-        <div class="hero-content">
-          <h1>
-            Vi bygger digitale
-            <span>løsninger, der virker.</span>
-          </h1>
+      <!-- .is-plain: an opaque white panel, so the heading and body copy
+           don't have to be read through the staircase pattern. -->
+      <div class="section-box is-plain hero-box">
+        <h1>
+          Vi bygger digitale
+          <span>løsninger, der virker.</span>
+        </h1>
 
-          <p class="hero-description">
-            Next Step Freelance er et team af syv udviklere fra UCN, der hjælper
-            virksomheder med at udvikle moderne software, webapplikationer og
-            digitale produkter.
-          </p>
-
-          <div class="hero-actions">
-            <NuxtLink to="/contact" class="primary-button">
-              <span>Start et projekt</span>
-
-              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                <path
-                  d="M5 10h10M11 6l4 4-4 4"
-                  stroke="currentColor"
-                  stroke-width="1.7"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </NuxtLink>
-
-            <NuxtLink to="/services" class="secondary-button">
-              Se vores ydelser
-            </NuxtLink>
-          </div>
-
-          <div class="hero-crew">
-            <span class="crew-label">Bygget af</span>
-            <p>
-              <span v-for="(name, i) in crew" :key="name">{{ name }}<template v-if="i < crew.length - 1">, </template></span>
-            </p>
-          </div>
-        </div>
-
-        <div class="hero-visual">
-          <div class="visual-caption">
-            <span>Web</span>
-            <span>Software</span>
-            <span>Design</span>
-          </div>
-        </div>
-      </div>
-
-      <a href="#intro" class="next-cue">
-        <span>Næste trin</span>
-        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
-          <path
-            d="M8 3v10M3.5 9l4.5 4.5L12.5 9"
-            stroke="currentColor"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
-      </a>
-    </section>
-
-    <!-- INTRO -->
-    <section id="intro" class="intro-section">
-      <div class="content-container intro-grid">
-        <p class="section-kicker">
-          Et mindre team. Tættere samarbejde.
+        <p class="hero-description">
+          Next Step Freelance er et team af syv udviklere fra UCN, der hjælper
+          virksomheder med at udvikle moderne software, webapplikationer og
+          digitale produkter.
         </p>
 
-        <div class="intro-copy">
-          <h2>
-            Ingen tunge processer.
-            <span>Bare dygtige mennesker og god software.</span>
-          </h2>
+        <div class="hero-actions">
+          <NuxtLink to="/contact" class="primary-button">
+            <span>Start et projekt</span>
 
-          <p>
-            Hos os arbejder du direkte sammen med de mennesker, der designer
-            og udvikler din løsning. Det giver hurtigere kommunikation, færre
-            misforståelser og et produkt, der passer til det faktiske behov.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- SERVICES -->
-    <section class="services-section">
-      <div class="content-container">
-        <div class="services-header">
-          <div>
-            <p class="section-kicker">
-              Hvad vi laver
-            </p>
-
-            <h2>
-              Fra idé til
-              <span>færdig løsning.</span>
-            </h2>
-          </div>
-
-          <NuxtLink to="/services" class="text-link">
-            Alle ydelser
-            <span>↗</span>
-          </NuxtLink>
-        </div>
-
-        <div ref="servicesGridEl" class="services-grid">
-          <article
-            v-for="service in services"
-            :key="service.title"
-            class="service-card"
-          >
-            <div class="service-content">
-              <h3>{{ service.title }}</h3>
-
-              <p>
-                {{ service.description }}
-              </p>
-            </div>
-
-            <div class="service-line" />
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- WHY US -->
-    <section class="why-section">
-      <div class="content-container why-grid">
-        <div class="why-copy">
-          <p class="section-kicker">
-            Hvorfor Next Step Freelance?
-          </p>
-
-          <h2>
-            Det skal være nemt at få
-            <span>god software bygget.</span>
-          </h2>
-
-          <p>
-            Vi holder samarbejdet simpelt, kommunikationen direkte og
-            udviklingen fokuseret på det, der giver værdi.
-          </p>
-
-          <NuxtLink to="/about" class="secondary-button">
-            Mød teamet
-          </NuxtLink>
-        </div>
-
-        <div ref="principlesListEl" class="principles-list">
-          <div
-            v-for="principle in principles"
-            :key="principle"
-            class="principle"
-          >
-            <span class="principle-tick" />
-
-            <p>
-              {{ principle }}
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="cta-section">
-      <div class="content-container">
-        <div class="cta-card">
-          <div class="cta-copy">
-            <span class="cta-label">
-              Har du en idé?
-            </span>
-
-            <h2>
-              Lad os bygge
-              <span>noget godt sammen.</span>
-            </h2>
-
-            <p>
-              Fortæl os kort om projektet, så finder vi ud af, hvordan vi bedst
-              kan hjælpe.
-            </p>
-          </div>
-
-          <NuxtLink to="/contact" class="cta-large-button">
-            <span>Kontakt os</span>
-
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
               <path
-                d="M6 12h12M13 7l5 5-5 5"
+                d="M5 10h10M11 6l4 4-4 4"
                 stroke="currentColor"
-                stroke-width="1.8"
+                stroke-width="1.7"
                 stroke-linecap="round"
                 stroke-linejoin="round"
               />
             </svg>
           </NuxtLink>
+
+          <NuxtLink to="/services" class="secondary-button">
+            Se vores ydelser
+          </NuxtLink>
         </div>
       </div>
     </section>
+
+    <!-- WHERE TO GO NEXT — the three other pages, one card each -->
+    <section class="destinations-section">
+      <div class="section-box">
+        <div class="destinations-grid">
+          <NuxtLink
+            v-for="destination in destinations"
+            :key="destination.to"
+            :to="destination.to"
+            class="destination-card"
+          >
+            <span class="destination-label">{{ destination.label }}</span>
+
+            <h2>{{ destination.title }}</h2>
+
+            <p>{{ destination.description }}</p>
+
+            <span class="destination-cta">
+              {{ destination.cta }}
+
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path
+                  d="M5 10h10M11 6l4 4-4 4"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+          </NuxtLink>
+        </div>
+      </div>
+    </section>
+
+    <ContactCta />
   </main>
 </template>
 
@@ -261,62 +118,29 @@ main {
 }
 
 /* =========================
-   SHARED
-   ========================= */
-
-.content-container,
-.hero-container {
-  width: min(1240px, calc(100% - 48px));
-  margin: 0 auto;
-}
-
-.section-kicker {
-  margin: 0;
-
-  color: var(--slate);
-
-  font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 500;
-
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-/* =========================
    HERO
    ========================= */
 
 .hero {
-  position: relative;
-
-  padding: 64px 0 120px;
+  padding: 40px 0 20px;
 }
 
-.hero-container {
-  min-height: 620px;
-
-  display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(420px, 0.95fr);
-
-  align-items: center;
-
-  gap: 70px;
-}
-
-.hero-content {
-  position: relative;
+/* Sizing, colour and radius come from .section-box.is-plain; the hero
+   only needs a little more breathing room than a grid panel. */
+.hero-box {
+  padding-top: 60px;
+  padding-bottom: 60px;
 }
 
 .hero h1 {
-  max-width: 720px;
+  max-width: 900px;
 
   margin: 0;
 
-  font-size: clamp(52px, 5.6vw, 80px);
+  font-size: clamp(48px, 5.6vw, 78px);
   font-weight: 700;
 
-  line-height: 0.96;
+  line-height: 1;
   letter-spacing: -0.03em;
 }
 
@@ -327,7 +151,7 @@ main {
 }
 
 .hero-description {
-  max-width: 560px;
+  max-width: 620px;
 
   margin: 30px 0 0;
 
@@ -344,18 +168,26 @@ main {
 
   gap: 12px;
 
-  margin-top: 34px;
+  margin-top: 36px;
 }
+
+/* =========================
+   BUTTONS
+
+   Both carry a solid fill or a real border rather than sitting as bare
+   text on the page — on the #f1f5f9 background a borderless link is
+   easy to miss, and these are the page's only two actions.
+   ========================= */
 
 .primary-button,
 .secondary-button {
-  height: 50px;
+  height: 52px;
 
   display: inline-flex;
   align-items: center;
   justify-content: center;
 
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
 
   font-size: 15px;
   font-weight: 600;
@@ -365,16 +197,21 @@ main {
   transition:
     background 180ms ease,
     color 180ms ease,
-    border-color 180ms ease;
+    border-color 180ms ease,
+    box-shadow 180ms ease;
 }
 
 .primary-button {
   gap: 10px;
 
-  padding: 0 20px;
+  padding: 0 22px;
 
-  background: var(--chip-bg);
-  color: var(--chip-text);
+  border: 1px solid var(--accent);
+
+  background: var(--accent);
+  color: #ffffff;
+
+  box-shadow: 0 6px 18px -8px rgba(99, 102, 241, 0.7);
 }
 
 .primary-button svg {
@@ -385,8 +222,10 @@ main {
 }
 
 .primary-button:hover {
-  background: var(--accent);
-  color: var(--accent-ink);
+  background: #4f46e5;
+  border-color: #4f46e5;
+
+  box-shadow: 0 10px 26px -10px rgba(79, 70, 229, 0.8);
 }
 
 .primary-button:hover svg {
@@ -394,614 +233,176 @@ main {
 }
 
 .secondary-button {
-  padding: 0 18px;
+  padding: 0 20px;
 
   border: 1px solid var(--line-strong);
 
-  background: transparent;
-  color: var(--ink-soft);
-}
-
-.secondary-button:hover {
-  border-color: var(--ink);
+  background: #ffffff;
   color: var(--ink);
 }
 
-.hero-crew {
-  margin-top: 54px;
-  padding-top: 22px;
-
-  border-top: 1px solid var(--line);
+.secondary-button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
-.crew-label {
-  display: block;
+/* =========================
+   DESTINATIONS
 
-  margin-bottom: 8px;
+   The three cards sit in the shared .section-box panel (main.css) — a
+   shade below --bg, inset from both page edges and rounded, so it reads
+   as a box holding them.
+   ========================= */
 
-  color: var(--slate);
+/* The panel itself is .section-box in main.css; this only spaces it. */
+.destinations-section {
+  padding: 8px 0 40px;
+}
+
+.destinations-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 22px;
+}
+
+/* The whole card is the link — a card-sized target is far easier to hit
+   than the caption at the bottom of it, which is what the arrow row is
+   for visually rather than functionally. */
+.destination-card {
+  display: flex;
+  flex-direction: column;
+
+  padding: 28px 26px 24px;
+
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+
+  background: var(--card-surface);
+  color: inherit;
+
+  text-decoration: none;
+
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.06),
+    0 6px 16px -8px rgba(15, 23, 42, 0.14);
+
+  transition:
+    transform 240ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 240ms ease,
+    box-shadow 240ms ease;
+}
+
+.destination-card:hover {
+  transform: translateY(-4px);
+
+  border-color: var(--accent);
+
+  box-shadow: 0 18px 34px -18px rgba(15, 23, 42, 0.26);
+}
+
+.destination-label {
+  color: var(--accent);
 
   font-family: var(--font-mono);
   font-size: 13px;
+  font-weight: 600;
 
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
-.hero-crew p {
-  margin: 0;
-  max-width: 420px;
-
-  color: var(--ink-soft);
-
-  font-size: 15px;
-  line-height: 1.7;
-}
-
-/* =========================
-   HERO STAIRCASE
-   ========================= */
-
-.hero-visual {
-  position: relative;
-
-  min-height: 480px;
-
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-}
-
-.visual-caption {
-  position: absolute;
-  top: 10px;
-  right: 0;
-
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-
-  gap: 6px;
-}
-
-.visual-caption span {
-  padding: 5px 10px;
-
-  border: 1px solid var(--line);
-  border-radius: var(--radius-sm);
-
-  color: var(--slate);
-
-  font-family: var(--font-mono);
-  font-size: 13px;
-}
-
-.next-cue {
-  position: absolute;
-  bottom: 28px;
-  left: 50%;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  gap: 4px;
-
-  color: var(--slate);
-
-  text-decoration: none;
-
-  transform: translateX(-50%);
-
-  animation: cue-bounce 2200ms ease-in-out infinite;
-}
-
-.next-cue span {
-  font-family: var(--font-mono);
-  font-size: 13px;
-
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.next-cue svg {
-  width: 14px;
-  height: 14px;
-}
-
-.next-cue:hover {
-  color: var(--accent);
-}
-
-@keyframes cue-bounce {
-  0%,
-  100% {
-    transform: translate(-50%, 0);
-  }
-
-  50% {
-    transform: translate(-50%, 6px);
-  }
-}
-
-/* =========================
-   INTRO
-   ========================= */
-
-.intro-section {
-  padding: 110px 0;
-
-  border-top: 1px solid var(--line);
-  background: var(--bg-raised);
-}
-
-.intro-grid {
-  display: grid;
-  grid-template-columns: 250px minmax(0, 1fr);
-
-  gap: 80px;
-}
-
-.intro-copy {
-  max-width: 820px;
-}
-
-.intro-copy h2,
-.services-header h2,
-.why-copy h2 {
-  margin: 0;
-
-  font-size: clamp(38px, 4.4vw, 58px);
-  font-weight: 700;
-
-  line-height: 1.04;
-  letter-spacing: -0.02em;
-}
-
-.intro-copy h2 span,
-.services-header h2 span,
-.why-copy h2 span {
-  display: block;
-
-  color: var(--slate);
-}
-
-.intro-copy > p {
-  max-width: 650px;
-
-  margin: 28px 0 0;
-
-  color: var(--ink-soft);
-
-  font-size: 16px;
-  line-height: 1.8;
-}
-
-/* =========================
-   SERVICES
-   ========================= */
-
-.services-section {
-  padding: 110px 0;
-
-  /* Deeper than --bg so the white mosaic tiles have something to sit on.
-     The intro band above is --bg-raised, a close neighbour, so the same
-     hairline .intro-section uses keeps the two bands distinct. */
-  border-top: 1px solid var(--line);
-  background: var(--card-canvas);
-}
-
-.services-header {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-
-  gap: 40px;
-
-  margin-bottom: 60px;
-}
-
-.services-header .section-kicker {
-  margin-bottom: 20px;
-}
-
-.text-link {
-  flex-shrink: 0;
-
-  margin-bottom: 8px;
-
-  color: var(--ink-soft);
-
-  font-family: var(--font-mono);
-  font-size: 14px;
-  font-weight: 500;
-
-  text-decoration: none;
-}
-
-.text-link span {
-  display: inline-block;
-
-  margin-left: 5px;
-
-  transition: transform 180ms ease;
-}
-
-.text-link:hover span {
-  transform: translate(2px, -2px);
-}
-
-.services-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-
-  gap: 1px;
-
-  border: 1px solid var(--line);
-  background: var(--line);
-}
-
-.service-card {
-  min-height: 200px;
-
-  padding: 28px;
-
-  display: flex;
-  flex-direction: column;
-
-  /* Sharper than the --bg section behind it, so the mosaic reads as
-     tiles instead of dissolving into the page. Tuned in main.css. */
-  background: var(--card-surface);
-}
-
-/* Hovering dims the rest of the mosaic rather than shading the hovered
-   tile — on a white surface, darkening the hovered one reads backwards.
-   No lift or scale here: the tiles are flush with 1px seams that a
-   transform would tear open.
-
-   The reveal (useStairReveal) owns opacity on the way in and outranks a
-   plain :hover, so these wait for .is-visible before taking over — and
-   set their own transition to escape the slower 560ms entrance one. */
-.services-grid .service-card.is-visible {
-  transition: opacity var(--card-hover-ms) ease;
-}
-
-.services-grid:hover .service-card.is-visible {
-  opacity: var(--card-dim);
-}
-
-.services-grid .service-card.is-visible:hover {
-  opacity: 1;
-}
-
-.service-content h3 {
-  margin: 0;
+.destination-card h2 {
+  margin: 14px 0 0;
 
   font-size: 24px;
   font-weight: 700;
 
+  line-height: 1.2;
   letter-spacing: -0.02em;
 }
 
-.service-content p {
-  margin: 14px 0 0;
+.destination-card p {
+  margin: 12px 0 0;
 
-  color: var(--slate);
+  color: var(--ink-soft);
 
   font-size: 15px;
   line-height: 1.65;
 }
 
-.service-line {
-  width: 32px;
-  height: 2px;
-
+/* Pushed to the bottom edge so all three read along one line no matter
+   how long the description above it runs. */
+.destination-cta {
   margin-top: auto;
-
-  background: var(--accent);
-}
-
-.service-card:hover .service-line {
-  background: var(--accent);
-}
-
-/* =========================
-   WHY
-   ========================= */
-
-.why-section {
-  padding: 110px 0;
-}
-
-.why-grid {
-  display: grid;
-  grid-template-columns: 1fr 0.8fr;
-
-  align-items: end;
-
-  gap: 100px;
-}
-
-.why-copy .section-kicker {
-  margin-bottom: 20px;
-}
-
-.why-copy > p {
-  max-width: 590px;
-
-  margin: 26px 0 30px;
-
-  color: var(--ink-soft);
-
-  font-size: 15px;
-  line-height: 1.75;
-}
-
-.why-copy .secondary-button:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-.principles-list {
-  border-top: 1px solid var(--line);
-}
-
-.principle {
-  min-height: 84px;
-
-  display: grid;
-  grid-template-columns: 46px 1fr;
-
-  align-items: center;
-
-  border-bottom: 1px solid var(--line);
-}
-
-.principle-tick {
-  width: 16px;
-  height: 2px;
-
-  background: var(--success);
-
-  transition: background 220ms ease, width 220ms ease;
-}
-
-.principle:hover .principle-tick {
-  width: 24px;
-
-  background: var(--accent);
-}
-
-.principle p {
-  margin: 0;
-
-  color: var(--ink);
-
-  font-size: 15px;
-  font-weight: 500;
-}
-
-/* =========================
-   FINAL CTA
-   ========================= */
-
-.cta-section {
-  padding: 100px 0 120px;
-}
-
-.cta-card {
-  min-height: 380px;
-
-  padding: 56px;
-
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-
-  gap: 50px;
-
-  border: 1px solid var(--line-strong);
-  background: var(--bg-raised);
-}
-
-.cta-label {
-  display: block;
-
-  margin-bottom: 18px;
-
-  color: var(--slate);
-
-  font-family: var(--font-mono);
-  font-size: 13px;
-
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.cta-copy {
-  flex: 1;
-}
-
-.cta-copy h2 {
-  max-width: 680px;
-
-  margin: 0;
-
-  font-size: clamp(38px, 4.4vw, 58px);
-  font-weight: 700;
-
-  line-height: 1.02;
-  letter-spacing: -0.02em;
-}
-
-.cta-copy h2 span {
-  display: block;
-
-  color: var(--slate);
-}
-
-.cta-copy p {
-  max-width: 520px;
-
-  margin: 22px 0 0;
-
-  color: var(--ink-soft);
-
-  font-size: 15px;
-  line-height: 1.7;
-}
-
-.cta-large-button {
-  height: 54px;
-
-  flex-shrink: 0;
-
-  padding: 0 20px;
+  padding-top: 22px;
 
   display: inline-flex;
   align-items: center;
 
-  gap: 11px;
+  gap: 8px;
 
-  border-radius: var(--radius-sm);
-
-  background: var(--chip-bg);
-  color: var(--chip-text);
+  color: var(--accent);
 
   font-size: 15px;
   font-weight: 600;
-
-  text-decoration: none;
-
-  transition:
-    background 180ms ease,
-    color 180ms ease;
 }
 
-.cta-large-button svg {
-  width: 19px;
-  height: 19px;
+.destination-cta svg {
+  width: 17px;
+  height: 17px;
 
   transition: transform 180ms ease;
 }
 
-.cta-large-button:hover {
-  background: var(--accent);
-  color: var(--accent-ink);
-}
-
-.cta-large-button:hover svg {
-  transform: translateX(3px);
+.destination-card:hover .destination-cta svg {
+  transform: translateX(4px);
 }
 
 /* =========================
-   RESPONSIVE
+   TABLET / MOBILE
    ========================= */
 
-@media (max-width: 1000px) {
-  .hero-container {
-    grid-template-columns: 1fr;
-
-    gap: 50px;
-  }
-
-  .hero-content {
-    max-width: 800px;
-  }
-
-  .hero-visual {
-    min-height: auto;
-
-    padding: 20px 0 0;
-  }
-
-  .intro-grid {
-    grid-template-columns: 1fr;
-
-    gap: 30px;
-  }
-
-  .why-grid {
-    grid-template-columns: 1fr;
-
-    gap: 60px;
+@media (max-width: 950px) {
+  .destinations-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-@media (max-width: 760px) {
-  .content-container,
-  .hero-container {
-    width: min(100% - 36px, 1240px);
-  }
-
+@media (max-width: 700px) {
   .hero {
-    padding: 40px 0 70px;
+    padding: 20px 0 12px;
   }
 
-  .hero-container {
-    min-height: auto;
+  .hero-box {
+    padding-top: 36px;
+    padding-bottom: 36px;
   }
 
   .hero h1 {
-    font-size: clamp(42px, 12vw, 60px);
+    font-size: clamp(38px, 11vw, 56px);
   }
 
   .hero-description {
-    font-size: 15px;
+    font-size: 16px;
   }
 
-  .intro-section,
-  .services-section,
-  .why-section {
-    padding: 70px 0;
-  }
-
-  .intro-copy h2,
-  .services-header h2,
-  .why-copy h2 {
-    font-size: clamp(34px, 10vw, 44px);
-  }
-
-  .services-header {
-    align-items: flex-start;
-    flex-direction: column;
-
-    margin-bottom: 40px;
-  }
-
-  .services-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .cta-section {
-    padding: 60px 0 80px;
-  }
-
-  .cta-card {
-    min-height: auto;
-
-    padding: 30px;
-
-    flex-direction: column;
-    align-items: flex-start;
-
-    gap: 30px;
-  }
-}
-
-@media (max-width: 480px) {
   .hero-actions {
-    align-items: stretch;
-    flex-direction: column;
+    gap: 10px;
   }
 
   .primary-button,
   .secondary-button {
-    width: 100%;
+    flex: 1 1 100%;
   }
 
-  .cta-large-button {
-    width: 100%;
+  .destinations-section {
+    padding: 4px 0 28px;
+  }
+
+  .destinations-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
   }
 }
 </style>

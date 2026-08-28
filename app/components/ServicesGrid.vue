@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useStairReveal } from '~/composables/useStairReveal'
-import { useCardTilt } from '~/composables/useCardTilt'
 
 const services = [
   {
@@ -103,39 +100,22 @@ const services = [
     ],
   },
 ]
-
-const accentColors = ['#d2ff00', '#b2c73a', '#ff6b00', '#8fa62e']
-
-const gridEl = ref<HTMLElement | null>(null)
-
-useStairReveal(gridEl, '.service-card', {
-  direction: (i) => (i % 2 === 0 ? 'left' : 'right'),
-})
-useCardTilt(gridEl, '.service-card')
 </script>
 
 <template>
+  <!-- .section-box (main.css) is the shared panel every grid on the site
+       sits in: inset from both page edges and rounded, so it reads as a
+       box holding the cards. -->
   <section class="services-grid-section">
-    <div class="services-container">
-      <div class="section-header">
-        <span>
-          Hvad vi kan hjælpe med
-        </span>
-
-        <h2>
-          Fra frontend
-          <strong>til backend.</strong>
-        </h2>
-      </div>
-
-      <div ref="gridEl" class="services-grid">
+    <div class="section-box">
+      <div class="services-grid">
         <ServiceCard
           v-for="(service, index) in services"
           :key="service.title"
           :title="service.title"
           :description="service.description"
           :items="service.items"
-          :accent="accentColors[index % accentColors.length]"
+          :accent="accentColor(index)"
         />
       </div>
     </div>
@@ -144,114 +124,44 @@ useCardTilt(gridEl, '.service-card')
 
 <style scoped>
 .services-grid-section {
-  padding: 10px 40px 110px;
-
-  /* Deeper than --bg so the white cards have something to sit on. */
-  background: var(--card-canvas);
-}
-
-.services-container {
-  max-width: 1360px;
-
-  margin: 0 auto;
-}
-
-.section-header {
-  margin-bottom: 50px;
-}
-
-.section-header > span {
-  display: block;
-
-  margin-bottom: 16px;
-
-  color: var(--slate);
-
-  font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 500;
-
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.section-header h2 {
-  margin: 0;
-
-  color: var(--ink);
-
-  font-size: clamp(36px, 4.4vw, 56px);
-  font-weight: 700;
-
-  line-height: 1.02;
-  letter-spacing: -0.02em;
-}
-
-.section-header h2 strong {
-  display: block;
-
-  color: var(--slate);
-
-  font-weight: inherit;
+  /* The panel itself is .section-box; this only spaces it from the hero
+     above and the contact box below. */
+  padding: 8px 0 40px;
 }
 
 .services-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
 
+  /* Cards open independently and therefore differ in height; start them
+     at the top of their row so an open card grows downward instead of
+     stretching its neighbours to match. */
+  align-items: start;
+
   gap: 20px;
 
-  /* Shared vanishing point for the per-card tilt. Set on the grid rather
-     than each card so neighbouring cards lean into one consistent space
-     instead of each having its own. */
-  perspective: 1200px;
-
-  /* =======================================================
-     Lift + scale are specific to this grid — the homepage
-     mosaic has flush 1px seams that scaling would tear open.
-     The shared knobs (--card-surface, --card-dim,
-     --card-hover-ms) are in :root in main.css. Override any
-     of them here to make /services differ from the homepage.
-     ======================================================= */
-
-  /* How much the hovered card grows. 1 = no growth. */
-  --card-hover-scale: 1.035;
-
   /* How far the hovered card lifts. Negative = upward. */
-  --card-hover-lift: -6px;
+  --card-hover-lift: -4px;
 }
 
-/* The reveal (useStairReveal) owns opacity + transform on its way in and
-   wins on specificity, so the hover states only take over once .is-visible
-   is on — and they set their own transition to escape the slower 560ms
-   entrance one. */
-.services-grid .service-card.is-visible {
+/* These used to be qualified with .is-visible, the class the scroll-reveal
+   added, purely so they'd outrank its entrance transform. The reveal is
+   gone, so the plain selectors are enough. */
+.services-grid .service-card {
   transition:
-    opacity var(--card-hover-ms) ease,
     transform var(--card-hover-ms) cubic-bezier(0.16, 1, 0.3, 1),
     box-shadow var(--card-hover-ms) ease,
     border-color var(--card-hover-ms) ease;
 }
 
-/* Hovering anywhere in the grid pushes every card back... */
-.services-grid:hover .service-card.is-visible {
-  opacity: var(--card-dim);
-}
-
-/* ...and the one actually under the cursor comes forward, leaning toward
-   the pointer. --tilt-x / --tilt-y are written per-card by useCardTilt;
-   they default to 0deg so the rule is inert until it has real values,
-   and stay 0deg for reduced-motion and touch, where the composable
-   never attaches. */
-.services-grid .service-card.is-visible:hover {
+/* A plain lift, with no scale and no dimming of the neighbours: the cards
+   expand in place now, and both of those fought with reading one that is
+   open — scale blurred its text mid-transition, and the dim greyed out
+   the seven cards you were comparing it against. */
+.services-grid .service-card:hover {
   z-index: 2;
 
-  opacity: 1;
-  transform:
-    translateY(var(--card-hover-lift))
-    scale(var(--card-hover-scale))
-    rotateX(var(--tilt-x, 0deg))
-    rotateY(var(--tilt-y, 0deg));
+  transform: translateY(var(--card-hover-lift));
 }
 
 @media (max-width: 1050px) {
@@ -262,7 +172,7 @@ useCardTilt(gridEl, '.service-card')
 
 @media (max-width: 560px) {
   .services-grid-section {
-    padding: 10px 18px 70px;
+    padding: 4px 0 28px;
   }
 
   .services-grid {

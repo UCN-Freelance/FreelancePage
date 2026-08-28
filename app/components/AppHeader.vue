@@ -20,7 +20,7 @@ const navItems = [
         aria-label="Next Step Freelance - Forside"
       >
         <img
-          src="/LogoUCNFreelanceMini.png"
+          src="/logo/next-step-mini.png"
           alt="Next Step Freelance"
           class="brand-logo"
         />

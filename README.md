@@ -1,75 +1,47 @@
-# Nuxt Minimal Starter
+# Next Step Freelance
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Marketing site for Next Step Freelance, built with [Nuxt 4](https://nuxt.com).
+
+## Project layout
+
+- `app/pages` — routes (landing page, services, cases, about, contact)
+- `app/components` — page sections and reusable cards
+- `app/data` — static content (case studies)
+- `app/utils` — small shared helpers, auto-imported by Nuxt
+- `app/assets/css/main.css` — design tokens and shared layout primitives (`.section-box`, etc.)
+- `public/logo` — brand marks; `public/team` — team member photos
+- `scripts/recolor-logo.mjs` — one-off tool that recolours the source UCN logo art into the site's indigo palette
 
 ## Setup
 
-Make sure to install dependencies:
+Install dependencies:
 
 ```bash
-# npm
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
 
-## Development Server
+## Development server
 
-Start the development server on `http://localhost:3000`:
+Starts on `http://localhost:3000`:
 
 ```bash
-# npm
 npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
 ## Production
 
-Build the application for production:
+Build:
 
 ```bash
-# npm
 npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
 ```
 
-Locally preview production build:
+Preview the production build locally:
 
 ```bash
-# npm
 npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## Deployment
+
+Pushes to `main` are deployed automatically via `.github/workflows/deploy.yml`, which SSHes into the server and runs `docker compose up -d` (see `docker-compose.yml` and `Caddyfile`).

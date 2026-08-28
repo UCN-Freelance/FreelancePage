@@ -4,8 +4,15 @@ import { ref, onMounted } from 'vue'
 withDefaults(
   defineProps<{
     title: string
+    sector: string
     description: string
-    image: string
+    result: string
+    to: string
+    stack: string[]
+    // Optional: drop a photo into public/cases/ and pass its path. Until
+    // one exists the accent panel below stands in, so nothing requests
+    // an image that is not there.
+    image?: string
     accent?: string
   }>(),
   { accent: 'var(--accent)' },
@@ -22,10 +29,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <article class="case-card" :style="{ '--card-accent': accent }">
+  <NuxtLink class="case-card" :to="to" :style="{ '--card-accent': accent }">
     <div class="case-image-wrapper">
       <img
-        v-if="!imageFailed"
+        v-if="image && !imageFailed"
         ref="imageEl"
         :src="image"
         :alt="title"
@@ -33,44 +40,76 @@ onMounted(() => {
         @error="imageFailed = true"
       />
 
-      <div v-else class="case-placeholder" aria-hidden="true">
-        <svg viewBox="0 0 32 32" fill="none">
-          <rect x="4" y="6" width="24" height="20" rx="1" stroke="currentColor" stroke-width="1.4" />
-          <circle cx="11" cy="13" r="2" stroke="currentColor" stroke-width="1.4" />
-          <path
-            d="M6 22l7-6 5 4 4-4 4 5"
-            stroke="currentColor"
-            stroke-width="1.4"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+      <!-- Shown until a real photo is dropped into public/cases/. Built
+           from the card's own accent rather than grey, so a case without
+           artwork still reads as finished rather than as a broken image. -->
+      <div v-else class="case-placeholder">
+        <span class="placeholder-sector">{{ sector }}</span>
       </div>
     </div>
 
     <div class="case-content">
-      <h2>
-        {{ title }}
-      </h2>
+      <h2>{{ title }}</h2>
 
-      <p>
-        {{ description }}
-      </p>
+      <p>{{ description }}</p>
+
+      <div class="case-result">
+        <span class="result-tick" aria-hidden="true">
+          <svg viewBox="0 0 16 16" fill="none">
+            <path
+              d="M3.5 8.5l3 3 6-7"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </span>
+
+        {{ result }}
+      </div>
+
+      <div class="case-stack">
+        <span v-for="tech in stack" :key="tech">{{ tech }}</span>
+      </div>
+
+      <span class="case-more">
+        Læs mere
+
+        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path
+            d="M5 10h10M11 6l4 4-4 4"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </span>
     </div>
-  </article>
+  </NuxtLink>
 </template>
 
 <style scoped>
+/* The whole card is the link to its detail page, so the target is the
+   card rather than a caption inside it. */
 .case-card {
   display: flex;
   flex-direction: column;
 
+  color: inherit;
+  text-decoration: none;
+
   overflow: hidden;
 
-  border: 1px solid var(--line-strong);
+  border: 1px solid var(--line);
   border-radius: var(--radius-md);
 
-  background: var(--bg);
+  background: var(--card-surface);
+
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.06),
+    0 6px 16px -8px rgba(15, 23, 42, 0.14);
 
   transition:
     transform 260ms cubic-bezier(0.16, 1, 0.3, 1),
@@ -78,23 +117,17 @@ onMounted(() => {
     border-color 260ms ease;
 }
 
-/* The lift + tilt live on .cases-grid in cases.vue — the reveal system
-   outranks a plain .case-card:hover on transform, so they have to be
-   written from the grid to take effect. */
+/* The lift lives on .cases-grid in cases.vue — the reveal system outranks
+   a plain .case-card:hover on transform, so it has to be written from the
+   grid to take effect. */
 .case-card:hover {
   border-color: var(--card-accent);
-
-  box-shadow:
-    0 18px 40px -20px rgba(0, 0, 0, 0.8),
-    0 0 26px -6px rgba(210, 255, 0, 0.3);
-  box-shadow:
-    0 18px 40px -20px rgba(0, 0, 0, 0.8),
-    0 0 26px -6px color-mix(in srgb, var(--card-accent) 34%, transparent);
+  box-shadow: 0 18px 34px -18px rgba(15, 23, 42, 0.22);
 }
 
 .case-image-wrapper {
   width: 100%;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 9;
 
   overflow: hidden;
 
@@ -117,32 +150,75 @@ onMounted(() => {
 }
 
 .case-placeholder {
+  position: relative;
+
   width: 100%;
   height: 100%;
 
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-end;
+
+  padding: 18px 20px;
+
+  /* The accent, deepened toward ink at the far corner so the sector label
+     stays legible wherever it sits. The flat accent is declared first as a
+     fallback: without it, a browser that cannot parse color-mix drops the
+     whole gradient and leaves white text on nothing. */
+  background: var(--card-accent);
+  background:
+    linear-gradient(
+      135deg,
+      var(--card-accent) 0%,
+      color-mix(in srgb, var(--card-accent) 55%, #1e293b) 100%
+    );
+
+  overflow: hidden;
+}
+
+/* Faint isometric ruling — enough texture that the panel doesn't read as
+   a flat colour swatch, faint enough not to fight the label. */
+.case-placeholder::before {
+  content: '';
+
+  position: absolute;
+  inset: 0;
 
   background:
     repeating-linear-gradient(
       135deg,
-      var(--bg-raised),
-      var(--bg-raised) 10px,
-      var(--bg) 10px,
-      var(--bg) 20px
+      rgba(255, 255, 255, 0.14),
+      rgba(255, 255, 255, 0.14) 1px,
+      transparent 1px,
+      transparent 14px
     );
-
-  color: var(--slate);
 }
 
-.case-placeholder svg {
-  width: 36px;
-  height: 36px;
+.placeholder-sector {
+  position: relative;
+
+  padding: 6px 12px;
+
+  border-radius: var(--radius-sm);
+
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+
+  letter-spacing: 0.04em;
+
+  backdrop-filter: blur(4px);
 }
 
 .case-content {
-  padding: 24px 26px 28px;
+  display: flex;
+  flex-direction: column;
+
+  flex: 1;
+
+  padding: 22px 24px 24px;
 }
 
 .case-content h2 {
@@ -150,10 +226,10 @@ onMounted(() => {
 
   color: var(--ink);
 
-  font-size: 22px;
+  font-size: 21px;
   font-weight: 700;
 
-  line-height: 1.15;
+  line-height: 1.2;
   letter-spacing: -0.01em;
 
   transition: color 220ms ease;
@@ -164,7 +240,7 @@ onMounted(() => {
 }
 
 .case-content p {
-  margin: 12px 0 0;
+  margin: 11px 0 0;
 
   color: var(--slate);
 
@@ -172,9 +248,104 @@ onMounted(() => {
   line-height: 1.6;
 }
 
+/* The one number worth taking away from the card, so it gets the accent
+   and a rule above it rather than sitting inside the paragraph. */
+.case-result {
+  margin-top: auto;
+  padding-top: 18px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+  color: var(--card-accent);
+
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.result-tick {
+  width: 20px;
+  height: 20px;
+
+  flex-shrink: 0;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  /* Same reasoning as the placeholder gradient: a plain tint first, so the
+     tick still sits on a disc where color-mix is unavailable. */
+  background: var(--bg-raised);
+  background: color-mix(in srgb, var(--card-accent) 14%, transparent);
+}
+
+.result-tick svg {
+  width: 13px;
+  height: 13px;
+}
+
+.case-stack {
+  margin-top: 16px;
+  padding-top: 16px;
+
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 6px;
+
+  border-top: 1px solid var(--line);
+}
+
+.case-stack span {
+  padding: 4px 9px;
+
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+
+  color: var(--ink-soft);
+
+  font-family: var(--font-mono);
+  font-size: 12px;
+
+  transition: border-color 220ms ease;
+}
+
+.case-card:hover .case-stack span {
+  border-color: var(--card-accent);
+}
+
+.case-more {
+  margin-top: 16px;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: 8px;
+
+  color: var(--card-accent);
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.case-more svg {
+  width: 16px;
+  height: 16px;
+
+  transition: transform 180ms ease;
+}
+
+.case-card:hover .case-more svg {
+  transform: translateX(4px);
+}
+
 @media (max-width: 600px) {
   .case-content {
-    padding: 20px 21px 23px;
+    padding: 20px 21px 22px;
   }
 
   .case-content h2 {
