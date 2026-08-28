@@ -100,8 +100,6 @@ const services = [
     ],
   },
 ]
-
-const accentColors = ['#6366f1', '#4f46e5', '#4338ca', '#3730a3']
 </script>
 
 <template>
@@ -117,7 +115,7 @@ const accentColors = ['#6366f1', '#4f46e5', '#4338ca', '#3730a3']
           :title="service.title"
           :description="service.description"
           :items="service.items"
-          :accent="accentColors[index % accentColors.length]"
+          :accent="accentColor(index)"
         />
       </div>
     </div>

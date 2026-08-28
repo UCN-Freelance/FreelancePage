@@ -1,7 +1,8 @@
 /**
  * Recolours the supplied lime logo artwork into the site's indigo palette.
  *
- * The source PNGs (LogoUCNFreelance.png, LogoUCNFreelanceMini.png) are lime
+ * The source PNGs (public/logo/ucn-freelance-source.png,
+ * public/logo/ucn-freelance-mini-source.png) are lime
  * (#d2ff00) with darker olive side-faces that give the isometric mark its
  * depth, and — on the wordmark — the word "Freelance" set in white, which is
  * invisible against a light page.
@@ -124,5 +125,5 @@ async function recolour(source, destination) {
   console.log(`${destination}  (${info.width}x${info.height})`)
 }
 
-await recolour('public/LogoUCNFreelance.png', 'public/LogoNextStep.png')
-await recolour('public/LogoUCNFreelanceMini.png', 'public/LogoNextStepMini.png')
+await recolour('public/logo/ucn-freelance-source.png', 'public/logo/next-step.png')
+await recolour('public/logo/ucn-freelance-mini-source.png', 'public/logo/next-step-mini.png')

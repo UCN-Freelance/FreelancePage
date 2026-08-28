@@ -171,7 +171,7 @@ onUnmounted(() => {
           class="stage-logo"
           :class="{ 'is-gone': logoGone }"
           :style="{ '--logo-fade-ms': `${LOGO_FADE_MS}ms` }"
-          src="/LogoNextStep.png"
+          src="/logo/next-step.png"
           alt=""
         >
       </div>

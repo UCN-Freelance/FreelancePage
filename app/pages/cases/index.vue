@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { caseStudies } from '~/data/cases'
-
-const accentColors = ['#6366f1', '#4f46e5', '#4338ca', '#3730a3']
 </script>
 
 <template>
@@ -36,7 +34,7 @@ const accentColors = ['#6366f1', '#4f46e5', '#4338ca', '#3730a3']
             :description="caseItem.description"
             :result="caseItem.result"
             :stack="caseItem.stack"
-            :accent="accentColors[index % accentColors.length]"
+            :accent="accentColor(index)"
           />
         </div>
       </div>

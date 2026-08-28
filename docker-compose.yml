@@ -20,7 +20,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - /home/next/Docker/min-hjemmeside/Caddyfile:/etc/caddy/Caddyfile
+      - /home/next/Docker/FreelancePage/Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
     depends_on:
