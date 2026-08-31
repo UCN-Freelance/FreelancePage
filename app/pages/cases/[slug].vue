@@ -13,7 +13,7 @@ if (!study.value) {
 }
 
 useHead({
-  title: () => `${study.value?.title ?? 'Case'} — Next Step Freelance`,
+  title: () => `${study.value?.title ?? 'Case'} - NextStep Freelance`,
 })
 
 const others = computed(() =>
@@ -101,7 +101,7 @@ const others = computed(() =>
             <p>
               Vi lægger ikke skjul på det: Next Step Freelance er et nyt hold,
               og casen ovenfor er ikke et projekt, vi har leveret. Den er et
-              eksempel på den type løsning, vi bygger — skrevet for at vise,
+              eksempel på den type løsning, vi bygger - skrevet for at vise,
               hvad vi kan, indtil vi har rigtige projekter at vise frem.
             </p>
 
@@ -170,7 +170,7 @@ const others = computed(() =>
       label="Kom i gang"
       heading="Skal jeres projekt"
       heading-accent="være det første rigtige?"
-      body="Fortæl os kort, hvad I gerne vil have bygget. Vi vender tilbage med et bud på, hvordan vi griber det an — uforpligtende."
+      body="Fortæl os kort, hvad I gerne vil have bygget. Vi vender tilbage med et bud på, hvordan vi griber det an - uforpligtende."
       cta="Kontakt os"
     />
   </main>

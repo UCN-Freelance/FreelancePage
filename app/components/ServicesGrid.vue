@@ -17,7 +17,7 @@ const services = [
   {
     title: 'Webapplikationer',
     description:
-      'Skræddersyede webbaserede systemer til virksomheder, medarbejdere og kunder — fra simple portaler til komplette platforme.',
+      'Skræddersyede webbaserede systemer til virksomheder, medarbejdere og kunder - fra simple portaler til komplette platforme.',
     items: [
       'Dashboards',
       'Kundeportaler',

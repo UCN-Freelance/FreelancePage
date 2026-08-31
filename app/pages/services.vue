@@ -1,3 +1,9 @@
+<script setup lang="ts">
+useHead({
+  title: 'Ydelser - NextStep Freelance',
+})
+</script>
+
 <template>
   <main class="services-page">
     <ServicesHero />

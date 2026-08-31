@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import { caseStudies } from '~/data/cases'
+
+useHead({
+  title: 'Cases - NextStep Freelance',
+})
 </script>
 
 <template>
@@ -14,7 +18,7 @@ import { caseStudies } from '~/data/cases'
         </h1>
 
         <p class="hero-description">
-          Gennemarbejdede eksempler frem for en kundeliste — vi er et nyt
+          Gennemarbejdede eksempler frem for en kundeliste - vi er et nyt
           hold, og det lægger vi ikke skjul på. Hver case viser, hvad
           kunden står med, hvad vi ville bygge, og hvad det flytter.
           Klik for at læse mere.

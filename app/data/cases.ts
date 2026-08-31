@@ -53,7 +53,7 @@ export const caseStudies: CaseStudy[] = [
     approach: [
       'Stregkodescanning fra håndholdte enheder direkte ind i lagermodellen',
       'Lokationsstyring, så en vare altid har en kendt plads',
-      'Integration mod det ERP, I allerede bruger — ikke en erstatning for det',
+      'Integration mod det ERP, I allerede bruger - ikke en erstatning for det',
     ],
   },
   {
@@ -75,7 +75,7 @@ export const caseStudies: CaseStudy[] = [
     title: 'Kundeportal til rådgivningshus',
     sector: 'Rådgivning',
     description:
-      'Selvbetjeningsportal hvor kunder følger deres sager, henter dokumenter og godkender oplæg digitalt — i stedet for at det hele gik gennem vedhæftede filer i mails.',
+      'Selvbetjeningsportal hvor kunder følger deres sager, henter dokumenter og godkender oplæg digitalt - i stedet for at det hele gik gennem vedhæftede filer i mails.',
     result: 'Halveret manuel sagsopfølgning',
     stack: ['Nuxt', 'Auth', 'Dokumenthåndtering'],
     approach: [

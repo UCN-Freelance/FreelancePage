@@ -1,5 +1,9 @@
 <script setup lang="ts">
 
+useHead({
+  title: 'NextStep Freelance',
+})
+
 // The landing page's whole job is to point at the other three pages, so
 // the sections below are a directory rather than a pitch: one line each,
 // then a link. Anything that wants more room belongs on its own page.
@@ -9,7 +13,7 @@ const destinations = [
     label: 'Ydelser',
     title: 'Det vi bygger',
     description:
-      'Web, apps, automatisering, integrationer og backend — otte discipliner, samlet ét sted.',
+      'Web, apps, automatisering, integrationer og backend - otte discipliner, samlet ét sted.',
     cta: 'Se ydelser',
   },
   {

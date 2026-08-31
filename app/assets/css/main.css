@@ -1,5 +1,5 @@
 /* =========================================================
-   Design tokens — The Modern Innovator
+   Design tokens - The Modern Innovator
    Alabaster + charcoal slate structure with a royal amethyst
    accent: cutting-edge but safe, the palette of cloud/AI-grade
    consulting rather than security tooling or hacker culture.
@@ -28,13 +28,13 @@
   --radius-md: 6px;
   --radius-lg: 20px;
 
-  /* Fixed chip colors for solid buttons/badges — always this pairing,
+  /* Fixed chip colors for solid buttons/badges - always this pairing,
      regardless of what section they sit in. */
   --chip-bg: #1e293b;
   --chip-text: #fafafa;
 
   /* =======================================================
-     SERVICE CARD TUNING — shared by both service grids: the
+     SERVICE CARD TUNING - shared by both service grids: the
      homepage mosaic (index.vue) and the /services grid
      (ServicesGrid.vue). The lift + scale are specific to
      /services and live on .services-grid over there.
@@ -69,7 +69,7 @@
 body {
   margin: 0;
 
-  /* The staircase — "Next Step" — tiled across every page, replacing the
+  /* The staircase - "Next Step" - tiled across every page, replacing the
      WebGL scene that used to sit behind the content. The SVG is
      transparent, so --bg is what's actually being tinted here; the
      pattern only draws the lines over it.
@@ -127,7 +127,7 @@ img {
 }
 
 /* =========================================================
-   Section box — the panel a grid of cards sits in.
+   Section box - the panel a grid of cards sits in.
 
    Global rather than per-component so every grid on the site gets
    exactly the same container: inset from both page edges, rounded, and
@@ -148,7 +148,7 @@ img {
   background: var(--card-canvas);
 }
 
-/* The contact band. Same box, filled with the accent instead — it stays
+/* The contact band. Same box, filled with the accent instead - it stays
    in step with the grids rather than being the one thing on the page
    still bleeding to the edges. */
 .section-box.is-accent {
@@ -157,7 +157,7 @@ img {
   background: var(--accent);
 }
 
-/* Text panels — headings, intros, anything that would otherwise sit
+/* Text panels - headings, intros, anything that would otherwise sit
    straight on the staircase pattern. White rather than the grey used
    behind cards, because this is the variant that exists purely so long
    passages stay readable, and white is the highest contrast available

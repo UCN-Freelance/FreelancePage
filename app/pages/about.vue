@@ -1,3 +1,9 @@
+<script setup lang="ts">
+useHead({
+  title: 'Om Os - NextStep Freelance',
+})
+</script>
+
 <template>
   <main>
     <TeamSection />
