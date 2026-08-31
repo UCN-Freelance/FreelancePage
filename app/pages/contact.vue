@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-  title: 'Kontakt Os - NextStep Freelance',
+  title: 'Kontakt Os - Next Step Freelance',
 })
 </script>
 

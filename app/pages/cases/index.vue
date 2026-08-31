@@ -2,7 +2,7 @@
 import { caseStudies } from '~/data/cases'
 
 useHead({
-  title: 'Cases - NextStep Freelance',
+  title: 'Cases - Next Step Freelance',
 })
 </script>
 

@@ -13,7 +13,7 @@ if (!study.value) {
 }
 
 useHead({
-  title: () => `${study.value?.title ?? 'Case'} - NextStep Freelance`,
+  title: () => `${study.value?.title ?? 'Case'} - Next Step Freelance`,
 })
 
 const others = computed(() =>

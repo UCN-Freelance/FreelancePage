@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 useHead({
-  title: 'NextStep Freelance',
+  title: 'Next Step Freelance',
 })
 
 // The landing page's whole job is to point at the other three pages, so
