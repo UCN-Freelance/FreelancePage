@@ -40,7 +40,7 @@ const teamMembers = [
 // public/team/Omid.jpg) and it appears automatically; until then the
 // card shows the person's initials.
 function imagePath(name: string) {
-  return `/team/${name.split(' ')[0]}.jpg`
+  return `/team/${name.split(' ')[0]}-s.jpg`
 }
 
 // --- intro sequence -----------------------------------------------
